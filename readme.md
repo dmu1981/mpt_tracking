@@ -114,43 +114,42 @@ entsprechende Eintrag könnte also z.B. so aussehen:
 Wenn Sie nun das Programm auf dem "constantposition"-Problem starten erhalten Sie folgende Ausgabe
 
     python main.py --mode=constantposition --all             
-       NoFilter  :     0.2017 (Best run was index 13, Worst run was index 15)
-       Dummy     :     0.2553 (Best run was index 4, Worst run was index 6)
-
-Hinweis: Die konkrete RMSE-Messwerte sowie die Angabe des jeweils besten und schlechtesten Runs kann abweichen.
+       NoFilter  :     0.1985 (Best run was index 12, Worst run was index 21)
+       Dummy     :     0.3592 (Best run was index 15, Worst run was index 7)
 
 Die Anzeige ist sortiert, d.h. der beste Filter steht immer oben. In diesem Fall ist der "NoFilter" also bereits besser als der "Dummy"-Filter. Dies ist verständlich insoweit als das der Dummy-Filter ja immer die Position (0,0) schätzt (unabhängig von der Messung) während der "NoFilter" wenigstens noch den letzten Meßwert zurückgibt. Sie können sich den besten Durchlauf für den NoFilter konkret anschauen indem Sie das Programm so starten
 
-    python main.py --mode=constantposition --index=13 --debug
-       Dummy     :     0.1133
-       NoFilter  :     0.1887
+    python main.py --mode=constantposition --index=12 --debug
+       NoFilter  :     0.1769
+       Dummy     :     0.3863
 
-Der RMSE-Fehler des NoFilter in diesem Durchlauf war mit 0.1887 also minimal. Gleichzeitig sehen sie das der Dummy-Filter in diesem speziellen Durchlauf noch besser abgeschnitten hat was darauf hindeutet das der wahre (der zu schätzende)  Zustand nahe der Position (0,0) liegt. 
+Der RMSE-Fehler des NoFilter in diesem Durchlauf war mit 0.1769 also minimal.
 
 Schauen Sie sich auch den schlechtesten Durchlauf ihres Filter an, also
 
+    python main.py --mode=constantposition --index=21 --debug  
+       Dummy     :      0.143
+       NoFilter  :     0.2207
+
+Diesmal ist sogar der Dummy-Filter deutlich besser obwohl der "NoFilter" offensicht die bessere Strategie verfogt. Dies deutet darauf hin das der wahre Zustand ohnehin schon nah am Punkt (0,0) gelegen hat.
+
+Merke: Es nicht möglich ist die Filter anhand einzelner Meßreihen zu vergleichen. Vergleichen Sie immer auf allen mitgelieferten Meßreihen indem sie die --all Option verwenden. 
+
+Schauen wir uns noch den schlechsten Run des Dummy Filters (7 in diesem Fall) an, so finden wir
+
     python main.py --mode=constantposition --index=15 --debug  
-       Dummy     :     0.1178
-       NoFilter  :     0.2204
-
-Wieder ist der Dummy-Filter deutlich besser obwohl der "NoFilter" offensicht die bessere Strategie verfogt. Dies zeigt das es nicht möglich ist die Filter
-anhand einzelner Meßreihen zu vergleichen. Vergleichen Sie immer auf allen mitgelieferten Meßreihen indem sie die --all Option verwenden. 
-
-Schauen wir uns noch den schlechsten Run des Dummy Filters (6 in diesem Fall) an, so finden wir
-
-    python main.py --mode=constantposition --index=15 --debug  
-       NoFilter  :     0.1903
-       Dummy     :     0.6865
+       NoFilter  :     0.1905
+       Dummy     :     0.7023
 
 In diesem Szenario muß der wahre (zu schätzende Zustand) also weit weg von (0,0) gelegen haben, weswegen der Dummy-Filter hohe Fehler erzeugt. Der NoFilter schneidet besser ab. Tatsächlich ist es kein Zufall das der RMSE des NoFilter im Mittel (über alle Durchläufe) bei etwa 0.2 liegt... Dies entspricht ja genau
 dem Meßrauschen laut Aufgabenstellung (vergleichen Sie den entsprechenden Aufgabentext).
 
-Überlegen Sie nun wie sie die Schätzung verbessern können. Ihr Ziel ist es einen möglichst niedrigen RMSE über alle Meßreihen zu erhalten. Hinweis: Mit meiner Implementierung eines sinnvollen Filters erreiche ich bei diesem Problem einen RMSE von 0.0357
+Überlegen Sie nun wie sie die Schätzung verbessern können. Ihr Ziel ist es einen möglichst niedrigen RMSE über alle Meßreihen zu erhalten. Hinweis: Mit meiner Implementierung eines sinnvollen Filters erreiche ich bei diesem Problem einen RMSE von 0.0368
 
     python main.py --mode=constantposition --all
-       Mueller   :    0.03657 (Best run was index 5, Worst run was index 11)
-       NoFilter  :     0.2017 (Best run was index 13, Worst run was index 15)
-       Dummy     :     0.2553 (Best run was index 4, Worst run was index 6)
+        Mueller   :     0.0368 (Best run was index 33, Worst run was index 18)
+        NoFilter  :     0.1985 (Best run was index 12, Worst run was index 21)
+        Dummy     :     0.3592 (Best run was index 15, Worst run was index 7)
        
 ## Problem 2 - Statisches Objekt mit unterschiedlichem Meßrauschen 
 Dieses Problem heißt in der config.py Datei **randomnoise**!
