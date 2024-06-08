@@ -1,4 +1,5 @@
 import dummy
+import kalman
 
 # TODO: Add your filters here
 filters = {
@@ -10,5 +11,14 @@ filters = {
         "constantturn": dummy.DummyFilter(2),
         "randomnoise": dummy.DummyFilter(2),
         "angular": dummy.DummyFilter(2),
+    },
+    "Nicolucas": {
+        "color": [0.6, 0.6, 0.2],
+        "constantposition": kalman.KalmanFilter(2),
+        "constantvelocity": kalman.KalmanFilter(2),
+        "constantvelocity2": kalman.KalmanFilter(2),
+        "constantturn": kalman.KalmanFilter(2),
+        "randomnoise": kalman.KalmanFilter(2),
+        "angular": kalman.KalmanFilter(2)
     }
 }
