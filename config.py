@@ -1,5 +1,8 @@
 import dummy
 from nam import NamFilter
+import numpy as np
+from dummy import ConstantPositionFilter
+
 # TODO: Add your filters here
 filters = {
     "Dummy": {
@@ -11,8 +14,12 @@ filters = {
         "randomnoise": dummy.DummyFilter(2),
         "angular": dummy.DummyFilter(2),
     },
-    "NAM_Team": {
+    "NAMTeam": {
         "color": [0.5, 0.1, 0.9],
         "constantposition": NamFilter(),
-    }
+    },
+    "ConstantPositionFilter": {
+        "color": [0.1, 0.6, 0.1],
+        "constantposition": ConstantPositionFilter(),
+    },
 }

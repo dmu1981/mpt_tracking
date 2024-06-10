@@ -1,5 +1,4 @@
 import pickle
-import argparse
 import dummy
 from matplotlib import pyplot as plt
 from replay import replay
@@ -7,6 +6,8 @@ from evaluate import evaluate
 from config import filters
 from scorestatistics import print_score_statistics
 import numpy as np
+import argparse
+
 
 # No need to touch anything below this line
 # ---------------------------------------------------
@@ -18,10 +19,15 @@ def run_mode(mode):
     # Make sure index is an integer
     args.index = int(args.index)
 
-    # Load the timeseries data
+    # Load the timeseries data from a pickle file
     with open(file, "rb") as f:
         timeseries = pickle.loads(f.read())
 
+    #args.all is a boolean, if its True --> process all time series, 
+    # initialize the RMSE scores and compute summirized RMSE & RMSE per run
+    # if args.all is False, check the index, process the given time series 
+    # and calculate their RMSE.
+    
     if args.all:
         scores = {}
         for teams in filters.keys():
@@ -96,7 +102,8 @@ for team in filters.keys():
 
 
 # Create an argument parser
-parser = argparse.ArgumentParser("MPT Replay Tool")
+
+parser = argparse.ArgumentParser(description="MPT Replay Tool")
 parser.add_argument("--mode", action="store")
 parser.add_argument("--index", action="store", default=0)
 parser.add_argument("--debug", action="store_true")
