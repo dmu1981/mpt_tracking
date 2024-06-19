@@ -21,7 +21,7 @@ class KalmanFilter:
         return self.x
     
     def update(self, dt, measurement):
-        Z = measurement[:2]  # measurement vector
+        Z = measurement[:2]  # measurement vector / measured value
         y = Z - np.dot(self.H, self.x)  # measurement residual: difference between measured and estimated values
         S = np.dot(self.H, np.dot(self.P, self.H.T)) + self.R  # residual covariance: uncertainty of measurement residual
         K = np.dot(np.dot(self.P, self.H.T), np.linalg.inv(S))  # Kalman gain: weighting of measurement residual to update stategit
