@@ -137,7 +137,7 @@ Merke: Es nicht möglich ist die Filter anhand einzelner Meßreihen zu vergleich
 
 Schauen wir uns noch den schlechsten Run des Dummy Filters (7 in diesem Fall) an, so finden wir
 
-    python main.py --mode=constantposition --index=15 --debug  
+    python main.py --mode=constantposition --index=7 --debug  
        NoFilter  :     0.1905
        Dummy     :     0.7023
 
