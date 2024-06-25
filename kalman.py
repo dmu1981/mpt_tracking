@@ -6,25 +6,25 @@ It combines measurements (which are often noisy and inaccurate) with a model of 
 """
 
 class KalmanFilter:
-    def __init__(self, shape):
-        self.shape = shape
-        self.x = np.zeros(shape)  # initial state (location and velocity)
-        self.P = np.eye(shape[0])  # uncertainty covariance
-        self.F = np.eye(shape[0])  # state transition matrix
-        self.H = np.eye(shape[0])  # measurement matrix
-        self.R = np.eye(shape[0]) * 0.04  # measurement uncertainty (noise) matrix
-        self.I = np.eye(shape[0])  # identity matrix
+    def __init__(self, state_dim):
+        self.state_dim = state_dim
+        self.state_estimate = np.zeros(state_dim)  # initial state (location and velocity)
+        self.uncertainty_covariance = np.eye(state_dim[0])  # uncertainty covariance
+        self.state_transition = np.eye(state_dim[0])  # state transition matrix
+        self.measurement_matrix = np.eye(state_dim[0])  # measurement matrix
+        self.measurement_uncertainty = np.eye(state_dim[0]) * 0.04  # measurement uncertainty (noise) matrix
+        self.identity_matrix = np.eye(state_dim[0])  # identity matrix
         
     def reset(self, measurement):
-        self.x = measurement[:2]  # initialize state with first measurement
-        self.P = np.eye(2)  # reset uncertainty covariance
-        return self.x
+        self.state_estimate = measurement[:2]  # initialize state with first measurement
+        self.uncertainty_covariance = np.eye(2)  # reset uncertainty covariance
+        return self.state_estimate
     
     def update(self, dt, measurement):
-        Z = measurement[:2]  # measurement vector / measured value
-        y = Z - np.dot(self.H, self.x)  # measurement residual: difference between measured and estimated values
-        S = np.dot(self.H, np.dot(self.P, self.H.T)) + self.R  # residual covariance: uncertainty of measurement residual
-        K = np.dot(np.dot(self.P, self.H.T), np.linalg.inv(S))  # Kalman gain: weighting of measurement residual to update state
-        self.x = self.x + np.dot(K, y)  # update of state estimate: addition of weighted measurement residual
-        self.P = np.dot((self.I - np.dot(K, self.H)), self.P)  # updated estimate covariance: reduction of uncertainty
-        return self.x
+        measured_value = measurement[:2]  # measurement vector / measured value
+        measurement_residual = measured_value - np.dot(self.measurement_matrix, self.state_estimate)  # measurement residual: difference between measured and estimated values
+        residual_covariance = np.dot(self.measurement_matrix, np.dot(self.uncertainty_covariance, self.measurement_matrix.T)) + self.measurement_uncertainty  # residual covariance: uncertainty of measurement residual
+        kalman_gain = np.dot(np.dot(self.uncertainty_covariance, self.measurement_matrix.T), np.linalg.inv(residual_covariance))  # Kalman gain: weighting of measurement residual to update state
+        self.state_estimate = self.state_estimate + np.dot(kalman_gain, measurement_residual)  # update of state estimate: addition of weighted measurement residual
+        self.uncertainty_covariance = np.dot((self.identity_matrix - np.dot(kalman_gain, self.measurement_matrix)), self.uncertainty_covariance)  # updated estimate covariance: reduction of uncertainty
+        return self.state_estimate

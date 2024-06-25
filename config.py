@@ -5,7 +5,7 @@ from kalman import KalmanFilter
 # TODO: Add your filters here
 filters = {
     "Dummy": {
-        "color": [0.2, 0.2, 0.4],
+        "color": [0.2, 0.2, 0.6],
         "constantposition": dummy.DummyFilter(2),
         "constantvelocity": dummy.DummyFilter(2),
         "constantvelocity2": dummy.DummyFilter(2),
@@ -25,10 +25,5 @@ filters = {
   "Kalman": {
     "color": [1.0, 0.2, 0.2],
     "constantposition": KalmanFilter((2,)),
-    "constantvelocity": KalmanFilter((2,)),
-    "constantvelocity2": KalmanFilter((2,)),
-    "constantturn": KalmanFilter((2,)),
-    "randomnoise": KalmanFilter((2,)),
-    "angular": KalmanFilter((2,)),
   }
 }
