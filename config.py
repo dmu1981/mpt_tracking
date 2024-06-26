@@ -21,7 +21,7 @@ filters = {
     "TIP": {
         "color": [0.169, 0.89, 0.725],
         "constantposition": tip_constantposition.Minimal_Variance_Fusion(2),
-        #"constantvelocity": tip_constantvelocity.FILTER,
+        "constantvelocity": tip_constantvelocity.KalmanFilter(),
         #"constantvelocity2": tip_constantvelocity2.FILTER,
         #"constantturn": tip_constantturn.FILTER,
         #"randomnoise": tip_randomnoise.FILTER,

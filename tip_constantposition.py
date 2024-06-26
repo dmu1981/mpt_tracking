@@ -4,8 +4,8 @@ class Minimal_Variance_Fusion():
     def __init__(self, shape):
         self.shape = shape
         self.measurements = []
-        self.cov_matrix = np.eye(shape) * 0.04  # initial cov-matrix as identity matrix
-        self.measurement_noise_matrix = np.eye(shape) * 0.04  # doesn't change (for updating cov-matrix later)
+        self.cov_matrix = np.eye(shape) * 0.04  # Initial cov-matrix as identity matrix
+        self.measurement_noise_matrix = np.eye(shape) * 0.04  # Doesn't change (for updating cov-matrix later)
 
     def reset(self, measurement):
         self.measurements = [np.array(measurement)]
