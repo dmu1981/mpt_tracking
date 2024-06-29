@@ -1,5 +1,6 @@
 import dummy
 import constanposition
+import randomnoise
 
 # TODO: Add your filters here
 filters = {
@@ -9,7 +10,7 @@ filters = {
         "constantvelocity": dummy.DummyFilter(2),
         "constantvelocity2": dummy.DummyFilter(2),
         "constantturn": dummy.DummyFilter(2),
-        "randomnoise": dummy.DummyFilter(2),
+        "randomnoise": randomnoise.RandomNoiseFilter(2),
         "angular": dummy.DummyFilter(2),
     }
 }
