@@ -11,8 +11,6 @@ import argparse
 
 # No need to touch anything below this line
 # ---------------------------------------------------
-
-
 def run_mode(mode):
     file = mode + ".pk"
 
