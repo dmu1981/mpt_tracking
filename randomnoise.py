@@ -13,7 +13,7 @@ class RandomNoiseFilter():
         self.P = np.array(measurement[self.measurement_size:]).reshape(self.measurement_size, self.measurement_size)
         return self.x
     
-    def update(self, measurement):
+    def update(self, dt, measurement):
         # Messung (Measurement)
         z = np.array(measurement[:self.measurement_size])
         R = np.array(measurement[self.measurement_size:]).reshape(self.measurement_size, self.measurement_size)
