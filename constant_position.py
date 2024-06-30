@@ -1,7 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import logging
 
 class ConstantPositionFilter:
 
@@ -35,7 +33,4 @@ class ConstantPositionFilter:
 
                 return self.x
 
-if __name__ == "__main__":
-    filter = ConstantTurnFilter()
-    filter.run()
 

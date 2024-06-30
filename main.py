@@ -78,6 +78,7 @@ list_of_modes = {
     "constantturn": 0,
     "randomnoise": 0,
     "angular": 0,
+    "all": 0,
 }
 
 # Sanity check filters
@@ -92,11 +93,11 @@ for team in filters.keys():
         exit()
 
     for mode in list_of_modes.keys():
-        if mode not in res:
+        if mode not in res and mode != "all":
             print(
                 f"Team {team}: You did not specify a filter for mode {mode}... replacing with Dummy Filter"
             )
-            filters[team][mode] = (dummy.DummyFilter(2),)
+            filters[team][mode] = dummy.DummyFilter(2)
 
 
 # Create an argument parser
