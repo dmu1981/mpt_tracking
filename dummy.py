@@ -6,7 +6,7 @@ class DummyFilter:
         self.shape = shape
 
     def reset(self, measurement):
-        return np.zeros(self.shape)
+        return np.zeros(self.shape) 
 
     def update(self, dt, measurement):
-        return np.zeros(self.shape)
+        return np.zeros(self.shape) 
