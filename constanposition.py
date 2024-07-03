@@ -36,9 +36,7 @@ class KalmanFilter():
         y = z - self.x  # Innovationsvektor
         self.x = self.x + np.dot(K, y)  # Aktualisierung des Zustands
         self.P = self.P - np.dot(K, self.P)  # Aktualisierung der Fehlerkovarianzmatrix
-        
         return self.x
-
 
 
 
@@ -70,3 +68,16 @@ class SimpleNoiseFilter():
         mean_noise = self.calculate_mean_noise()
         corrected_measurements = [np.array(m[:self.measurement_size]) - mean_noise for m in measurements]
         return corrected_measurements
+    
+    
+    
+    
+class NoFilter():
+    def __init__(self):
+        pass
+
+    def reset(self, measurement):    
+        return measurement[:2]
+    
+    def update(self, dt, measurement):  
+        return measurement[:2]
