@@ -13,7 +13,7 @@ class NamFilter:
         self.uncertainty = np.eye(2) * 500
         return self.state
 
-    def update(self, dt, measurement):
+    def update(self, measurement):
         measurement = np.array(measurement[:2])
         measurement_uncertainty = np.eye(2) * self.measurement_noise**2
         
