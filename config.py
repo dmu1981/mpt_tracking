@@ -1,6 +1,6 @@
 import dummy
 import nofilter
-from kalman import KalmanFilter
+from kalman import KalmanFilter, KalmanFilterRandomNoise
 
 # TODO: Add your filters here
 filters = {
@@ -25,5 +25,6 @@ filters = {
   "Kalman": {
     "color": [1.0, 0.2, 0.2],
     "constantposition": KalmanFilter((2,)),
+    "randomnoise": KalmanFilterRandomNoise(2,)
   }
 }
