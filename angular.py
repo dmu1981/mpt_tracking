@@ -1,7 +1,6 @@
-# angular.py
 import numpy as np
 
-class AdngularFilter:
+class AngularFilter:
     def __init__(self):
         self.state = np.zeros(2)
         self.uncertainty = np.eye(2) * 500
@@ -9,6 +8,12 @@ class AdngularFilter:
         self.process_noise = 1e-5
 
     def reset(self, measurement):
+        print(f"Resetting with measurement: {measurement} (type: {type(measurement)})")
+        if isinstance(measurement, (np.ndarray, list)):
+            measurement = tuple(measurement)
+        if not isinstance(measurement, tuple) or len(measurement) != 2:
+            raise ValueError(f"Measurement must be a tuple, list, or numpy array with two elements (r, phi), but got {measurement}.")
+
         r, phi = measurement
         x = r * np.cos(phi)
         y = r * np.sin(phi)
@@ -16,11 +21,16 @@ class AdngularFilter:
         self.uncertainty = np.eye(2) * 500
         return self.state
 
-    def update(self, measurement):
- 
+    def update(self, measurement, *args, **kwargs):
+        print(f"Received measurement: {measurement} (type: {type(measurement)})")
+        if isinstance(measurement, (np.ndarray, list)):
+            measurement = tuple(measurement)
+        if not isinstance(measurement, tuple) or len(measurement) != 2:
+            raise ValueError(f"Measurement must be a tuple, list, or numpy array with two elements (r, phi), but got {measurement}.")
+
         r, phi = measurement
         x_meas = r * np.cos(phi)
-        y_meas = r * np.sin(phi)
+        y_meas = r *np.sin(phi)
         measurement_cartesian = np.array([x_meas, y_meas])
 
         measurement_uncertainty = self.measurement_noise
@@ -30,4 +40,3 @@ class AdngularFilter:
         self.uncertainty = (np.eye(2) - kalman_gain) @ self.uncertainty
 
         return self.state
-
