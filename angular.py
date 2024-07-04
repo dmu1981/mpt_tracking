@@ -17,7 +17,7 @@ class AdngularFilter:
         return self.state
 
     def update(self, measurement):
-        print(f"Update called with measurement: {measurement}")  # Logging
+ 
         r, phi = measurement
         x_meas = r * np.cos(phi)
         y_meas = r * np.sin(phi)
