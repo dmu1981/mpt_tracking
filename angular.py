@@ -9,7 +9,7 @@ class AngularFilter:
 
     def reset(self, measurement):
         print(f"Resetting with measurement: {measurement} (type: {type(measurement)})")
-        if isinstance(measurement, (np.ndarray, list)):
+        if isinstance(measurement, (np.ndarray, list, tuple)):
             measurement = tuple(measurement)
         if not isinstance(measurement, tuple) or len(measurement) != 2:
             raise ValueError(f"Measurement must be a tuple, list, or numpy array with two elements (r, phi), but got {measurement}.")
@@ -23,14 +23,14 @@ class AngularFilter:
 
     def update(self, measurement, *args, **kwargs):
         print(f"Received measurement: {measurement} (type: {type(measurement)})")
-        if isinstance(measurement, (np.ndarray, list)):
+        if isinstance(measurement, (np.ndarray, list, tuple)):
             measurement = tuple(measurement)
         if not isinstance(measurement, tuple) or len(measurement) != 2:
             raise ValueError(f"Measurement must be a tuple, list, or numpy array with two elements (r, phi), but got {measurement}.")
 
         r, phi = measurement
         x_meas = r * np.cos(phi)
-        y_meas = r *np.sin(phi)
+        y_meas = r * np.sin(phi)
         measurement_cartesian = np.array([x_meas, y_meas])
 
         measurement_uncertainty = self.measurement_noise
