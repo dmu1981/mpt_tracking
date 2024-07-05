@@ -4,7 +4,6 @@ import dummy
 import constant_position
 import random_noise
 import nam
-import angular
 # TODO: Add your filters here
 
 filters = {
@@ -25,7 +24,7 @@ filters = {
         "constantvelocity": dummy.DummyFilter(2),
         "constantvelocity2": dummy.DummyFilter(2),
         "constantturn": dummy.DummyFilter(2),
-        "angular": angular.AngularFilter() ,
+        "angular": nam.AngularFilter() ,
 
     },
     
