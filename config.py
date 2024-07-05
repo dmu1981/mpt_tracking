@@ -14,25 +14,11 @@ filters = {
         "randomnoise": dummy.DummyFilter(2),
         "angular": dummy.DummyFilter(2),
     },
-    "NoFilter": {
-        "color": [0.3, 0.3, 0.4],
-        "constantposition": constanposition.NoFilter(),
-        "randomnoise": dummy.DummyFilter(2),
-    },
-    "KalmanFilter": {
-        "color": [0.3, 0.3, 0.4],
+    "Glotzkowski": {
+        "color": [0.5, 0.3, 0.9],
         "constantposition": constanposition.KalmanFilter(2),
-        "randomnoise": dummy.DummyFilter(2),
-    },
-    "SimpleNoiseFilter":{
-        "color": [0.1, 0.2, 0.3],
-        "constantposition": constanposition.SimpleNoiseFilter(2),
-        "randomnoise": dummy.DummyFilter(2),
-    },
-    "RandomNoiseFilter": {
-        "color": [0.1, 0.2, 0.3],
-        "constantposition": dummy.DummyFilter(2),
-        "randomnoise": randomnoise.RandomNoiseFilter(2),
+        "randomnoise": randomnoise.KalmanFilter(2)
+        
     }
 }
 # Aufruf mit python main.py --mode=constantposition --index=5
