@@ -23,8 +23,8 @@ filters = {
         "constantposition": NamFilter(),
         #"constantposition": constant_position.ConstantPositionFilter(),
         "randomnoise": random_noise.RandomNoiseFilter(2),
-        "constantvelocity": dummy.DummyFilter(2),
-        "constantvelocity2": dummy.DummyFilter(2),
+        "constantvelocity": constantvelocity.KalmanFilterConstantVelocity(),
+        "constantvelocity2": constantvelocity2.KalmanFilterConstantVelocityMultiple(),
         "constantturn": dummy.DummyFilter(2),
         "angular": dummy.DummyFilter(2),
 
