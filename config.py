@@ -20,11 +20,11 @@ filters = {
         "color": [0.5, 0.1, 0.9],
         "constantposition": nam.NamFilter(),
         #"constantposition": constant_position.ConstantPositionFilter(),
-        "randomnoise": random_noise.RandomNoiseFilter(2),
+        "randomnoise": nam.RandomNoiseFilter(),
+        "angular": nam.AngularFilter() ,
         "constantvelocity": dummy.DummyFilter(2),
         "constantvelocity2": dummy.DummyFilter(2),
-        "constantturn": dummy.DummyFilter(2),
-        "angular": nam.AngularFilter() ,
+        "constantturn": nam.ConstantTurnFilter(turn_rate=0.1),
 
     },
     
