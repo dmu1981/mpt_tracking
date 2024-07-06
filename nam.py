@@ -17,8 +17,16 @@ class NamFilter:
         measurement = np.array(measurement[:2])
         measurement_uncertainty = np.eye(2) * self.measurement_noise**2
         
+        #Der Kalman-Gewinn wird berechnet, um zu bestimmen, wie stark die Vorhersage anhand der neuen Messung angepasst werden sollte. Mathematisch: K = p*(p+r)^-1 
+        #P ist die Unsicherheitsmatrix und R die Messunsicherheit
         kalman_gain = self.uncertainty @ np.linalg.inv(self.uncertainty + measurement_uncertainty)
+        #Zustand wird aktualisiert 
+        #Der neue Zustand wird basierend auf dem Kalman-Gewinn und der Differenz zwischen der Messung und dem vorhergesagten Zustand aktualisiert. Mathematisch: x = x + K * (z - x)
+        # x = vorhergesagter Zustand K = Kalman Gewinn und z = Messung
         self.state = self.state + kalman_gain @ (measurement - self.state)
+        #unsicherheit wird aktualisiert 
+        #Die Unsicherheitsmatrix wird angepasst um die verbesserte Schätzung wiederzuspiegeln: P=(I - K * H) * P 
+        # I = Einheitsmatrix
         self.uncertainty = (np.eye(2) - kalman_gain) @ self.uncertainty
 
         return self.state
