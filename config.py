@@ -1,5 +1,5 @@
 import dummy
-from filter_nick_redion import RandomNoise, ConstantVelocity, ConstantTurn, KalmanFilterConstantTurn, EKF
+from filter_nick_redion import RandomNoise, ConstantVelocity, KalmanFilterConstantTurn
 
 # TODO: Add your filters here
 filters = {
@@ -11,14 +11,6 @@ filters = {
         "constantturn": KalmanFilterConstantTurn(2),
         "randomnoise": RandomNoise(2),
         "angular": dummy.DummyFilter(2),
-    },
-    "Test": {
-        "color": [0.5, 0.5, 0.1],
-        "consantturn": ConstantTurn(2)
-    },
-    "Extended Kalman Filter": {
-        "color": [0.7, 0.2, 0.3],
-        "constantturn": ConstantVelocity(2)
     }
 }
 
