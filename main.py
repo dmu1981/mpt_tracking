@@ -21,11 +21,11 @@ def run_mode(mode):
     with open(file, "rb") as f:
         timeseries = pickle.loads(f.read())
 
-    #args.all is a boolean, if its True --> process all time series, 
+    # args.all is a boolean, if its True --> process all time series,
     # initialize the RMSE scores and compute summirized RMSE & RMSE per run
-    # if args.all is False, check the index, process the given time series 
+    # if args.all is False, check the index, process the given time series
     # and calculate their RMSE.
-    
+
     if args.all:
         scores = {}
         for teams in filters.keys():

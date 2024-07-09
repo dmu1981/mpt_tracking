@@ -10,4 +10,3 @@ class DummyFilter:
 
     def update(self, dt, measurement):
         return np.zeros(self.shape)
-
