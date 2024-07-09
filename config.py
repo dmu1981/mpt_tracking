@@ -1,6 +1,5 @@
 import dummy
 import nikolucas_filters
-import now_test
 
 # TODO: Add your filters here
 filters = {
