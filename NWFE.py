@@ -272,7 +272,7 @@ class ConstantVelocityMultiMeasurementKalmanFilter:
     
 
 class ConstantTurnRateKalmanFilter:
-    def __init__(self, process_noise=1e-4, measurement_noise=0.2):
+    def __init__(self, process_noise=1e-3, measurement_noise=0.25):
         self.state = np.zeros(5)  # [x, y, vx, vy, omega]
         self.uncertainty = np.eye(5)
         self.process_noise = process_noise
