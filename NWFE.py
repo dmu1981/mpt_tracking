@@ -207,3 +207,65 @@ class ConstantVelocityKalmanFilter:
         self.update_uncertainty(kalman_gain)
 
         return self.state[:2]
+    
+class ConstantVelocityMultiMeasurementKalmanFilter:
+    def __init__(self, process_noise=1e-4):
+        self.dt = 1  # Default time step, will be updated dynamically
+        self.state = np.zeros(4)  # [x, y, vx, vy]
+        self.uncertainty = np.eye(4)
+        self.process_noise = process_noise
+
+    def reset(self, measurement):
+        self.state[:2] = np.mean(measurement[:10].reshape(-1, 2), axis=0)
+        self.state[2:] = 0  # Initial velocity is unknown, set to 0
+        self.uncertainty = np.eye(4)
+        return self.state[:2]  # Return only the position part
+
+    def predict(self, dt):
+        self.dt = dt
+        F = np.array([[1, 0, dt, 0],
+                      [0, 1, 0, dt],
+                      [0, 0, 1, 0],
+                      [0, 0, 0, 1]])
+        
+        Q = np.eye(4) * self.process_noise
+        
+        self.state = F @ self.state
+        self.uncertainty = F @ self.uncertainty @ F.T + Q
+
+    def calculate_kalman_gain(self, measurement_uncertainty):
+        H = np.eye(2, 4)  # Measurement matrix for position measurements
+        S = H @ self.uncertainty @ H.T + measurement_uncertainty
+        K = self.uncertainty @ H.T @ np.linalg.inv(S)
+        return K
+
+    def update_state(self, measurement, kalman_gain):
+        H = np.eye(2, 4)  # Measurement matrix for position measurements
+        innovation = measurement - H @ self.state
+        self.state = self.state + kalman_gain @ innovation
+
+    def update_uncertainty(self, kalman_gain):
+        H = np.eye(2, 4)  # Measurement matrix for position measurements
+        self.uncertainty = (np.eye(4) - kalman_gain @ H) @ self.uncertainty
+
+    def update(self, dt, measurement):
+        self.predict(dt)
+        
+        measurements = measurement[:10].reshape(-1, 2)
+        measurement_uncertainties = measurement[10:].reshape(-1, 2)
+
+        # Compute average measurement and combined measurement uncertainty
+        avg_measurement = np.mean(measurements, axis=0)
+        combined_uncertainty = np.zeros((2, 2))
+        
+        for i in range(len(measurements)):
+            combined_uncertainty += np.diag(measurement_uncertainties[i]) ** 2
+
+        combined_uncertainty /= len(measurements)
+
+        kalman_gain = self.calculate_kalman_gain(combined_uncertainty)
+
+        self.update_state(avg_measurement, kalman_gain)
+        self.update_uncertainty(kalman_gain)
+
+        return self.state[:2]
