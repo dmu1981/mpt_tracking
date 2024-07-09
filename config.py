@@ -18,6 +18,7 @@ filters = {
        "randomnoise": NWFE.FilterRandomNoise(),
        "angular": NWFE.AngularKalmanFilter(),
        "constantvelocity": NWFE.ConstantVelocityKalmanFilter(),
-       "constantvelocity2": NWFE.ConstantVelocityMultiMeasurementKalmanFilter()
+       "constantvelocity2": NWFE.ConstantVelocityMultiMeasurementKalmanFilter(),
+       "constantturn": NWFE.ConstantTurnRateKalmanFilter()
     }
 }
