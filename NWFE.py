@@ -209,7 +209,7 @@ class ConstantVelocityKalmanFilter:
         return self.state[:2]
     
 class ConstantVelocityMultiMeasurementKalmanFilter:
-    def __init__(self, process_noise=1e-4):
+    def __init__(self, process_noise=1e-4, measurement_noise=0.25):
         self.dt = 1  # Default time step, will be updated dynamically
         self.state = np.zeros(4)  # [x, y, vx, vy]
         self.uncertainty = np.eye(4)
