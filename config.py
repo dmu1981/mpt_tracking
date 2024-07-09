@@ -16,14 +16,12 @@ filters = {
     },
     "NAMTeam": {
         "color": [0.5, 0.1, 0.9],
-        "constantposition": nam.NamFilter(),
+        "constantposition": nam.ConstantpositionFilter(),
         "randomnoise": nam.RandomNoiseFilter(),
-        "angular": nam.AngularFilter() 
+        "angular": nam.AngularFilter(),
         "constantvelocity": nam.KalmanFilterConstantVelocity(),
         "constantvelocity2": nam.KalmanFilterConstantVelocityMultiple(),
         "constantturn": nam.ConstantTurnFilter(),
-  
-
     },
 }
 if __name__ == "__main__":
