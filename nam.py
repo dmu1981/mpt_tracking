@@ -1,5 +1,6 @@
 import numpy as np
 
+
 # Problem 1
 class ConstantpositionFilter:
     def __init__(self):
@@ -23,13 +24,15 @@ class ConstantpositionFilter:
         measurement = np.array(measurement[:2])
         measurement_uncertainty = np.eye(2) * self.measurement_noise**2
 
-        # Der Kalman-Gewinn wird berechnet, um zu bestimmen, wie stark die Vorhersage anhand der neuen Messung angepasst werden sollte. Mathematisch: K = p*(p+r)^-1
+        # Der Kalman-Gewinn wird berechnet, um zu bestimmen, wie stark die Vorhersage anhand der neuen Messung angepasst werden sollte.
+        # Mathematisch: K = p*(p+r)^-1
         # P ist die Unsicherheitsmatrix und R die Messunsicherheit
         kalman_gain = self.uncertainty @ np.linalg.inv(
             self.uncertainty + measurement_uncertainty
         )
         # Zustand wird aktualisiert
-        # Der neue Zustand wird basierend auf dem Kalman-Gewinn und der Differenz zwischen der Messung und dem vorhergesagten Zustand aktualisiert. Mathematisch: x = x + K * (z - x)
+        # Der neue Zustand wird basierend auf dem Kalman-Gewinn und der Differenz zwischen der Messung 
+        # und dem vorhergesagten Zustand aktualisiert. Mathematisch: x = x + K * (z - x)
         # x = vorhergesagter Zustand K = Kalman Gewinn und z = Messung
         self.state = self.state + kalman_gain @ (measurement - self.state)
         # unsicherheit wird aktualisiert
@@ -61,18 +64,21 @@ class RandomNoiseFilter:
         return self.state.flatten()
 
     def update(self, dt, measurement):
-        # Extract the state measurements xy from z and reshape it to the shape of self.state, save the Covar meas Matrix R as a 2x2 matrix
+        # Extract the state measurements xy from z and reshape it to the shape of self.state, 
+        # save the Covar meas Matrix R as a 2x2 matrix
         # for the further S calculation.
         z = np.array(measurement[:2]).reshape((2, 1))
         R = np.array(measurement[2:6]).reshape((2, 2))
 
         # Compute the Kalman gain. K optimizes the distribution of weights for our prediction and the new measurement
         # These weights determine the relative influence of the new measurement and the prediction on the updated state estimate
-        # A higher Kalman gain means more trust is placed in the new measurement, whereas a lower Kalman gain means more trust for our prediction
+        # A higher Kalman gain means more trust is placed in the new measurement, 
+        # whereas a lower Kalman gain means more trust for our prediction
         S = self.uncertainty + R
         K = self.uncertainty @ np.linalg.inv(S)
 
-        # Innovation y shows us the difference between the actual measurement z from our state estimate (basically out prediction errror, also called measurement residual)
+        # Innovation y shows us the difference between the actual measurement z from our state estimate 
+        # (basically out prediction errror, also called measurement residual)
         y = z - self.state  # Innovation y
         self.state = self.state + K @ y  # Update of our state estimate
         I = np.eye(self.uncertainty.shape[0])  # Identity Matrix I
@@ -300,7 +306,7 @@ class ConstantTurnFilter:
                     self.state[2] * -self.state[3] + self.state[3] * self.state[2]
                 ) / (v**2)
 
-        # Calculating the Jocobi state transition matrix F. It is calculated the new state based on the old state  and the turn rate.
+        # Calculating the Jocobi state transition matrix F. It calculates the new state based on the old state and turn rate.
         a_cos = np.cos(self.turn_rate * dt)
         a_sin = np.sin(self.turn_rate * dt)
 
