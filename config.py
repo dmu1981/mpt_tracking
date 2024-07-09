@@ -14,10 +14,10 @@ filters = {
     },
     "Nicolucas": {
         "color": [0.6, 0.6, 0.2],
-        "constantposition": nikolucas_filters.KalmanFilter(2, 2),
+        "constantposition": nikolucas_filters.KalmanFilter(),
         "constantvelocity": nikolucas_filters.ConstantVelocityKalmanFilter(),
         "constantvelocity2": nikolucas_filters.AdaptiveKalmanFilter(),
-        "constantturn": nikolucas_filters.AdaptiveKalmanFilter(),
+        "constantturn": nikolucas_filters.ConstantTurn(),
         "randomnoise": nikolucas_filters.RandomNoise(2, 2),
         "angular": nikolucas_filters.ExtendedKalmanFilter()
     }
