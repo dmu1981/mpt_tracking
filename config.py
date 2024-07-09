@@ -14,7 +14,7 @@ filters = {
     },
     "Kalman (Fabrice, Niels)": {
         "color": [1.0, 0.0, 0.0],        
-        "constantposition": NWFE.KalmanFilter()
-       
+        "constantposition": NWFE.KalmanFilter(),
+       "randomnoise": NWFE.FilterRandomNoise()
     }
 }

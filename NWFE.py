@@ -45,3 +45,46 @@ class KalmanFilter:
 
         return self.state
 
+class FilterRandomNoise():
+    def __init__(self, process_noise=1e-9):
+        self.state = np.zeros(2)  # Initial state
+        self.uncertainty = np.eye(2)  # Initial uncertainty
+        self.process_noise = process_noise  # Process noise covariance
+
+    def reset(self, measurement):
+        self.state = np.array(measurement[:2])
+        self.uncertainty = np.eye(2)
+        return self.state
+
+    def predict(self):
+        F = np.eye(2)  # State transition model (identity for static object)
+        Q = np.eye(2) * self.process_noise  # Process noise covariance
+        self.state = F @ self.state  # State prediction
+        self.uncertainty = F @ self.uncertainty @ F.T + Q  # Uncertainty prediction
+
+    def calculate_kalman_gain(self, measurement_uncertainty):
+        return self.uncertainty @ np.linalg.inv(self.uncertainty + measurement_uncertainty)
+
+    def update_state(self, measurement, kalman_gain):
+        self.state = self.state + kalman_gain @ (measurement - self.state)
+
+    def update_uncertainty(self, kalman_gain):
+        self.uncertainty = (np.eye(2) - kalman_gain) @ self.uncertainty
+
+    def update(self,dt, measurement):
+        self.predict()
+
+        # Measurement update step
+        measurement_position = np.array(measurement[:2])
+        measurement_covariance = np.array(measurement[2:]).reshape(2, 2)
+
+        # Calculate Kalman gain
+        kalman_gain = self.calculate_kalman_gain(measurement_covariance)
+
+        # Update state
+        self.update_state(measurement_position, kalman_gain)
+
+        # Update uncertainty
+        self.update_uncertainty(kalman_gain)
+
+        return self.state
