@@ -1,4 +1,5 @@
 import dummy
+import NWFE
 
 # TODO: Add your filters here
 filters = {
@@ -10,5 +11,10 @@ filters = {
         "constantturn": dummy.DummyFilter(2),
         "randomnoise": dummy.DummyFilter(2),
         "angular": dummy.DummyFilter(2),
+    },
+    "Kalman (Fabrice, Niels)": {
+        "color": [1.0, 0.0, 0.0],        
+        "constantposition": NWFE.KalmanFilter()
+       
     }
 }
