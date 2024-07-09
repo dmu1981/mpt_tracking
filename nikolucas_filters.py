@@ -196,6 +196,52 @@ class ExtendedKalmanFilter:
         return self.x.flatten()
     
 
+class ConstantVelocity2:
+    def __init__(self):
+        self.state_dim = 4  # [x, y, vx, vy]
+        self.measurement_dim = 10  # Five 2D position measurements [x1, y1, x2, y2, x3, y3, x4, y4, x5, y5]
+        self.x = np.zeros((self.state_dim, 1))  # Initial state
+        self.P = np.eye(self.state_dim)  # Initial covariance matrix
+        self.F = np.eye(self.state_dim)  # State transition matrix (to be updated with dt)
+        self.Q = np.eye(self.state_dim) * 1e-8  # Small process noise to avoid overconfidence
+        self.H = np.zeros((self.measurement_dim, self.state_dim))  # Observation matrix
+        self.R = np.eye(self.measurement_dim)  # Measurement noise covariance matrix (to be updated with R from measurement)
+
+        # observation matrix for the state
+        for i in range(5):
+            self.H[2 * i, 0] = 1
+            self.H[2 * i + 1, 1] = 1
+
+    def reset(self, measurement):
+        self.x[:2] = np.mean(measurement[:10].reshape(5, 2), axis=0).reshape(2, 1)  # Initial position as the mean of measurements
+        self.x[2:] = 0.001  # Initial velocities set to a small value
+        self.P = np.eye(self.state_dim)  # Reinitialize P with some uncertainty
+        return self.x[:2].flatten()
+
+    def update(self, dt, measurement):
+        # Update the state transition matrix with the new dt
+        self.F[0, 2] = dt
+        self.F[1, 3] = dt
+
+        # Prediction step
+        x_pred = self.F @ self.x
+        P_pred = self.F @ self.P @ self.F.T + self.Q
+
+        # Extract the measured positions and the measurement noise covariance matrix
+        # extrahiere die Position und Messungs
+        z = measurement[:10].reshape(self.measurement_dim, 1)
+        Rt = np.diag(measurement[10:])
+
+        # Update the measurement noise covariance matrix
+        self.R = Rt
+
+        # Measurement update step
+        S = self.H @ P_pred @ self.H.T + self.R  # Innovation covariance
+        K = P_pred @ self.H.T @ np.linalg.inv(S + np.eye(S.shape[0]) * 1e-9)  # Kalman gain with numerical stability
+        self.x = x_pred + K @ (z - self.H @ x_pred)
+        self.P = (np.eye(self.state_dim) - K @ self.H) @ P_pred
+
+        return self.x[:2].flatten()
     
 class ConstantTurn:
     def __init__(self):
@@ -246,7 +292,7 @@ class ConstantTurn:
         self.x = x_pred + K @ (z - self.H @ x_pred)
         self.P = (np.eye(self.state_dim) - K @ self.H) @ P_pred
 
-        return self.x[:2].flatten()
+        return self.x[:2].flatten() 
 
 
     
