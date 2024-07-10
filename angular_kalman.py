@@ -10,7 +10,7 @@ class AngularKalmanFilter():
         self.x = np.zeros(measurement_size)  
         self.P = np.eye(measurement_size)  
         self.R = np.eye(measurement_size) * 0.04  
-        self.Q = np.eye(measurement_size) * 0.00  
+        #self.Q = np.eye(measurement_size) * 0.00  
 
     def reset(self, measurement):
         # Initialisierung des Zustands x mit der ersten Messung
@@ -26,7 +26,7 @@ class AngularKalmanFilter():
         z = np.array([r * np.cos(phi), r * np.sin(phi)])
         
         # Vorhersage (Predict)
-        self.P = self.P + self.Q  # Aktualisierung der Fehlerkovarianzmatrix
+        self.P = self.P #+ self.Q  # Aktualisierung der Fehlerkovarianzmatrix
         
         # Berechnung des Kalman-Gewinns
         S = self.P + self.R  
