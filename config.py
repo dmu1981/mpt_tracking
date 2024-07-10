@@ -13,6 +13,9 @@ from filters import (
     ConstantVelocity2,
     ConstantVelocity,
 )
+
+import filter_nick_redion
+
 # TODO: Add your filters here
 filters = {
     "Mueller": {
@@ -24,6 +27,15 @@ filters = {
       "randomnoise": mueller.RandomNoiseFilter(),
       "angular": mueller.AngularFilter(),
     }, 
+    "Redion_Nick": {
+        "color": [0.2, 0.2, 0.4],
+        "constantposition": filter_nick_redion.KalmanFilter(2),
+        "constantvelocity": dummy.DummyFilter(2), # Provided filter crashes #filter_nick_redion.KalmanFilterConstantVelocity(2),
+        "constantvelocity2": filter_nick_redion.ConstantVelocity(2),
+        "constantturn": filter_nick_redion.ConstantTurn(2),
+        "randomnoise": filter_nick_redion.RandomNoise(2),
+        "angular": filter_nick_redion.ExtendedKalmanFilter(2),
+    },
     "MeMaMa": {
         "color": [0.2, 0.2, 0.6],
         "constantposition": KalmanFilter((2,)),

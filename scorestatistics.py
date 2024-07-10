@@ -22,10 +22,10 @@ def print_score_statistics(scores, args, multiruns):
         worstRunIndex = np.argmax(scores[team]["rmse_per_run"])
         if multiruns:
             print(
-                f"   {team:10}: {rmse:10.4} (Best run was index {bestRunIndex}, Worst run was index {worstRunIndex})"
+                f"   {team:25}: {rmse:10.4} (Best run was index {bestRunIndex}, Worst run was index {worstRunIndex})"
             )
         else:
-            print(f"   {team:10}: {rmse:10.4}")
+            print(f"   {team:25}: {rmse:10.4}")
 
         df[team] = scores[team]["rmse_per_run"]
 
