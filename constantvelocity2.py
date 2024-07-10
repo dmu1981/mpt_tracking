@@ -8,19 +8,19 @@ class ConstantVelocityKalmanFilter2:
     # ZIEL: Schätzung der 2-dimensionalen Position des Objekts
 
     def __init__(self, state_size, measurement_size):
-        self.state_size = state_size  # Zustand ist ein 4-dimensionaler Vektor (x, y, vx, vy)
-        self.measurement_size = measurement_size  # Messungen sind 2-dimensional (x, y)
+        self.state_size = state_size  # Zustand: 4-dimensionaler Vektor aus Position und Geschwindigkeit (x, y, vx, vy)
+        self.measurement_size = measurement_size  # Messungen: 2-dimensionaler Vektor (x, y)
 
         # Initialisierung des Zustands und der Kovarianzmatrix
         self.x = np.zeros(self.state_size)
-        self.P = np.eye(self.state_size) * 1000
+        self.P = np.eye(self.state_size) * 1000 # Eine hohe Kovarianz = hohe Unsicherheit aufgrund mangelnder Infos
 
         # Prozessrauschkovarianz Q
-        self.Q = np.eye(self.state_size) * 0.01
+        self.Q = np.eye(self.state_size) * 0.01 # Das Prozessrauschen wird modelliert
 
     def reset(self, measurement):
-        # Initialisierung des Zustands mit dem Mittelwert der ersten fünf Messungen
-        z = measurement[:10].reshape(5, 2)
+        # Initialisierung des Zustands mit dem Mittelwert der ersten fünf unabhängigen Messungen
+        z = measurement[:10]
         self.x[:2] = np.mean(z, axis=0)  # Durchschnitt der Positionen
         self.x[2:] = 0  # Anfangsgeschwindigkeit auf 0 setzen
         self.P = np.eye(self.state_size) * 1000  # Kovarianz zurücksetzen
@@ -28,7 +28,7 @@ class ConstantVelocityKalmanFilter2:
 
     def update(self, dt, measurement):
         # Extrahiere Messungen und Messrauschen
-        z = measurement[:10].reshape(5, 2)
+        z = measurement[:10]
         R_values = measurement[10:]
 
         # Zustandsübergangsmatrix F
