@@ -16,7 +16,7 @@ class ConstantVelocityKalmanFilter2:
         self.P = np.eye(self.state_size)
 
         # Prozessrauschkovarianz Q
-        self.Q = np.eye(self.state_size) * 0.01 # Das Prozessrauschen wird modelliert
+        self.Q = np.eye(self.state_size) * 0.01 # Das Prozessrauschen wird beispielhaft modelliert, um den RMSE niedriger zu machen
 
     def reset(self, measurement):
         # Initialisierung des Zustands mit dem Mittelwert der ersten fünf unabhängigen Messungen
