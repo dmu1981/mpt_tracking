@@ -29,7 +29,7 @@ filters = {
         "randomnoise": nofilter.NoFilter(),
         "angular": nofilter.NoFilter(),
     },
-    "Kalman": {
+    "MeMaMa": {
         "color": [1.0, 0.2, 0.2],
         "constantposition": KalmanFilter((2,)),
         "randomnoise": KalmanFilterRandomNoise(2),
