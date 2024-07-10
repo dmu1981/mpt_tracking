@@ -19,25 +19,25 @@ filters = {
         "color": [0.3, 0.3, 0.4],
         "constantposition": constanposition.NoFilter(),
         "randomnoise": dummy.DummyFilter(2),
-        "angular": dummy.DummyFilter(2)
+        "angular": dummy.DummyFilter(2),
     },
     "KalmanFilter": {
         "color": [0.3, 0.3, 0.4],
         "constantposition": constanposition.KalmanFilter(2),
         "randomnoise": dummy.DummyFilter(2),
-        "angular": dummy.DummyFilter(2)
+        "angular": dummy.DummyFilter(2),
     },
     "SimpleNoiseFilter":{
         "color": [0.1, 0.2, 0.3],
         "constantposition": constanposition.SimpleNoiseFilter(2),
         "randomnoise": dummy.DummyFilter(2),
-        "angular": dummy.DummyFilter(2)
+        "angular": dummy.DummyFilter(2),
     },
     "RandomNoiseFilter": {
         "color": [0.1, 0.2, 0.3],
         "constantposition": dummy.DummyFilter(2),
         "randomnoise": randomnoise.RandomNoiseFilter(2),
-        "angular": dummy.DummyFilter(2)
+        "angular": dummy.DummyFilter(2),
     },
     "AngularKalmanFilter": {
         "color": [0.4, 0.5, 0.6],
