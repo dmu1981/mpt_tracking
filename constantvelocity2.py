@@ -13,7 +13,11 @@ class ConstantVelocityKalmanFilter2:
 
         # Initialisierung des Zustands und der Kovarianzmatrix
         self.x = np.zeros(self.state_size)
+<<<<<<< HEAD
         self.P = np.eye(self.state_size)
+=======
+        self.P = np.eye(self.state_size) * 1000 # Eine hohe Fehlerkovarianz = hohe Unsicherheit aufgrund mangelnder Infos 
+>>>>>>> b2b74a32a58e960c8fef6d7c47cdb8ae4471460c
 
         # Prozessrauschkovarianz Q
         self.Q = np.eye(self.state_size) * 0.01 # Das Prozessrauschen wird modelliert
