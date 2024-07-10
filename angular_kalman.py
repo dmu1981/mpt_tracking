@@ -1,13 +1,16 @@
 import numpy as np
 
 class AngularKalmanFilter():
-    # Sachen, die ergänzt worden sind, wurden kommentiert - der Rest wurde vom obigen Class KalmanFilter übernommen und daher
+    # Sachen, die ergänzt worden sind, wurden kommentiert - der Rest wurde von Class KalmanFilter übernommen und daher
     # nicht weiterkommentiert.
 
-    def __init__(self):
-        super().__init__(measurement_size=2)  # Wir verfolgen die Position (x, y)
-        self.R = np.eye(2) * 0.04  
-        self.Q = np.eye(2) * 0.01  
+    def __init__(self, measurement_size):
+        # Initialisierung der Zustandsvariablen
+        self.measurement_size = measurement_size
+        self.x = np.zeros(measurement_size)  
+        self.P = np.eye(measurement_size)  
+        self.R = np.eye(measurement_size) * 0.04  
+        self.Q = np.eye(measurement_size) * 0.00  
 
     def reset(self, measurement):
         # Initialisierung des Zustands x mit der ersten Messung
