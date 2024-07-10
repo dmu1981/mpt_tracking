@@ -2,10 +2,36 @@ import dummy
 import NWFE
 import numpy as np
 import nikolucas_filters
-import till_jonah
-
+import mueller
+import nam
+from filters import (
+    KalmanFilter,
+    KalmanFilterRandomNoise,
+    KalmanFilterAngular,
+    KalmanFilterConstantTurn,
+    ConstantVelocity2,
+    ConstantVelocity,
+)
 # TODO: Add your filters here
 filters = {
+    "Mueller": {
+      "color": [0.4, 0.7, 0.9],
+      "constantposition": mueller.ConstantPositionFilter(),
+      "constantvelocity": mueller.ConstantVelocityFilter(),
+      "constantvelocity2": mueller.ConstantVelocityFilter2(),
+      "constantturn": mueller.ConstantTurnRate(),
+      "randomnoise": mueller.RandomNoiseFilter(),
+      "angular": mueller.AngularFilter(),
+    }, 
+    "MeMaMa": {
+        "color": [0.2, 0.2, 0.6],
+        "constantposition": KalmanFilter((2,)),
+        "randomnoise": KalmanFilterRandomNoise(2),
+        "angular": KalmanFilterAngular(),
+        "constantvelocity2": ConstantVelocity2(),
+        "constantvelocity": ConstantVelocity(),
+        "constantturn": KalmanFilterConstantTurn(),
+    },
     "Dummy": {
         "color": [0.2, 0.2, 0.4],
         "constantposition": dummy.DummyFilter(2),
@@ -14,6 +40,15 @@ filters = {
         "constantturn": dummy.DummyFilter(2),
         "randomnoise": dummy.DummyFilter(2),
         "angular": dummy.DummyFilter(2),
+    },
+    "NAMTeam": {
+        "color": [0.5, 0.1, 0.9],
+        "constantposition": nam.ConstantpositionFilter(),
+        "randomnoise": nam.RandomNoiseFilter(),
+        "angular": nam.AngularFilter(),
+        "constantvelocity": nam.KalmanFilterConstantVelocity(),
+        "constantvelocity2": nam.KalmanFilterConstantVelocityMultiple(),
+        "constantturn": nam.ConstantTurnFilter(),
     },
     "Kalman (Fabrice, Niels)": {
         "color": [1.0, 0.0, 0.0],
@@ -33,12 +68,4 @@ filters = {
         "randomnoise": nikolucas_filters.RandomNoise(2, 2),
         "angular": nikolucas_filters.ExtendedKalmanFilter(),
     },
-    "die süßen Mäuse": {
-        "color": [0.5, 0.0, 0.7],
-        "constantposition": till_jonah.Constant(2),
-        "randomnoise": till_jonah.Random(2),
-        "angular": till_jonah.Angular(2),
-        "constantvelocity": till_jonah.Velocity(2),
-        "constantvelocity2": till_jonah.Velocity2(2),
-        "constantturn": till_jonah.ConstantTurn(2)}
 }
