@@ -1,5 +1,6 @@
 import dummy
 import NWFE
+import numpy as np
 
 # TODO: Add your filters here
 filters = {
@@ -19,6 +20,6 @@ filters = {
        "angular": NWFE.AngularKalmanFilter(),
        "constantvelocity": NWFE.ConstantVelocityKalmanFilter(),
        "constantvelocity2": NWFE.ConstantVelocityMultiMeasurementKalmanFilter(),
-       "constantturn": NWFE.ConstantTurnRateKalmanFilter()
+       "constantturn": NWFE.ConstantTurnRateKalmanFilter(),
     }
 }
