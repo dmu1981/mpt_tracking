@@ -1,6 +1,7 @@
 import dummy
 import constanposition
 import randomnoise
+import constantturn
 
 # TODO: Add your filters here
 
@@ -17,8 +18,8 @@ filters = {
     "Glotzkowski": {
         "color": [0.5, 0.3, 0.9],
         "constantposition": constanposition.KalmanFilter(2),
-        "randomnoise": randomnoise.KalmanFilter(2)
-        
+        "randomnoise": randomnoise.KalmanFilter(2),
+        "constantturn": constantturn.ExtendedKalmanFilter(4, 20)
     }
 }
 # Aufruf mit python main.py --mode=constantposition --index=5
