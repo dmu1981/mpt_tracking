@@ -1,8 +1,5 @@
 import dummy
-import kalman
-import filter_randomnoise
 import nikolucas_filters
-import now_test
 
 # TODO: Add your filters here
 filters = {
@@ -17,11 +14,11 @@ filters = {
     },
     "Nicolucas": {
         "color": [0.6, 0.6, 0.2],
-        "constantposition": nikolucas_filters.KalmanFilter(2),
-        "constantvelocity": nikolucas_filters.AdaptiveKalmanFilter(),
-        "constantvelocity2": kalman.KalmanFilter(2),
-        "constantturn": kalman.KalmanFilter(2),
+        "constantposition": nikolucas_filters.KalmanFilter(),
+        "constantvelocity": nikolucas_filters.ConstantVelocityKalmanFilter(),
+        "constantvelocity2": nikolucas_filters.ConstantVelocity2(),
+        "constantturn": nikolucas_filters.ConstantTurnRateFilter(4),
         "randomnoise": nikolucas_filters.RandomNoise(2, 2),
-        "angular": nikolucas_filters.Angular(2)
-    }
+        "angular": nikolucas_filters.ExtendedKalmanFilter(),
+    },
 }
