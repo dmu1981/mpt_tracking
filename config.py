@@ -14,12 +14,12 @@ filters = {
         "angular": dummy.DummyFilter(2),
     },
     "Kalman (Fabrice, Niels)": {
-        "color": [1.0, 0.0, 0.0],        
+        "color": [1.0, 0.0, 0.0],
         "constantposition": NWFE.KalmanFilter(),
-       "randomnoise": NWFE.FilterRandomNoise(),
-       "angular": NWFE.AngularKalmanFilter(),
-       "constantvelocity": NWFE.ConstantVelocityKalmanFilter(),
-       "constantvelocity2": NWFE.ConstantVelocityMultiMeasurementKalmanFilter(),
-       "constantturn": NWFE.ConstantTurnRateKalmanFilter(),
-    }
+        "randomnoise": NWFE.FilterRandomNoise(),
+        "angular": NWFE.AngularKalmanFilter(),
+        "constantvelocity": NWFE.ConstantVelocityKalmanFilter(),
+        "constantvelocity2": NWFE.ConstantVelocityMultiMeasurementKalmanFilter(),
+        "constantturn": NWFE.ConstantTurnRateKalmanFilter(),
+    },
 }
