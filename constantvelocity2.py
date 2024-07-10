@@ -51,7 +51,8 @@ class ConstantVelocityKalmanFilter2:
 
         for i in range(5): 
             z_i = z[i]
-            R_i = np.diag(R_values[i*2:i*2+2])
+            R_values = measurement[10:]  # Standardabweichungen
+            R_i = np.diag(R_values[i*2:i*2+2]**2)  # Quadrieren, um Varianzen zu erhalten
 
             # Korrektur
             y = z_i - H @ self.x
