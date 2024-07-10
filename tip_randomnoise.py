@@ -1,7 +1,5 @@
 import numpy as np
 
-# To be implemented
-
 
 # static object with random noise -> position is x(t) = x(t-1)
 # noise z(t) = x(t) + et
