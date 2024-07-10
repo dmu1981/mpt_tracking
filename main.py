@@ -1,7 +1,6 @@
 import pickle
 import argparse
 import dummy
-from matplotlib import pyplot as plt
 from replay import replay
 from evaluate import evaluate
 from config import filters
