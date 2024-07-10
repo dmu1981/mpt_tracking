@@ -2,7 +2,6 @@ import dummy
 import constanposition
 import randomnoise
 import angular_kalman
-import constantvelocity2
 
 # TODO: Add your filters here
 
@@ -40,12 +39,8 @@ filters = {
         "color": [0.1, 0.2, 0.3],
         "constantsposition": angular_kalman.AngularKalmanFilter(2),
         "randomnoise": dummy.DummyFilter(2),
-    },
-    "ConstantVelocityKalmanFilter2": {
-        "color": [0.1, 0.2, 0.3],
-        "constantposition": constantvelocity2.ConstantVelocityKalmanFilter2(2),
-        "randomnoise": dummy.DummyFilter(2),
     }
 }
+
 # Aufruf mit python main.py --mode=constantposition --index=5
 # Visualisierung python main.py --mode=constantposition --debug
