@@ -14,16 +14,17 @@ class ConstantVelocity2:
     which quantifies the level of confidence in the measurements
     and therefore is needed to update the state estimate and its uncertainty/noise.
     """
-    def __init__(self, guess_H = 1, guess_P = 1):
+    def __init__(self, guess_H = 1, guess_P = 67, Q_noise = 0.0005):
         #self.state_dim = state_dim
-        self.dt = 0
+        self.dt = 1
         self.state_estimate = np.zeros(4)
-        self.P = np.eye(4) #* guess_P        
-        #self.state_transition = np.eye(4)
-        self.H = np.eye(2,4) #* guess_H #measurement_matrix
-        self.Q = np.eye(4) 
         self.guess_P = guess_P
         self.guess_H = guess_H
+        self.Q_noise = Q_noise
+        self.P = np.eye(4) * guess_P        
+        #self.state_transition = np.eye(4)
+        self.H = np.eye(2,4) * guess_H #measurement_matrix
+        self.Q = np.eye(4) * self.Q_noise
         self.I = np.eye(4) #einheitsmatrix
         
         
@@ -52,11 +53,17 @@ class ConstantVelocity2:
                       [0, 0, 1, 0],
                       [0, 0, 0, 1]]) #Prozessmodell
         
-        self.state_estimate = self.F @ self.state_estimate
+        G = np.array([[0.5*dt**2, 0],
+                       [0, 0.5*dt**2], 
+                       [dt, 0],
+                       [0, dt]])
+        Q = np.ndarray.var(G) * self.Q_noise
         
-        Q = self.Q #* self.guess_Q
+        self.state_estimate = F @ self.state_estimate 
         
-        self.P =F @ self.P @ F.T + Q #hat shape (4,4)
+        #Q = self.Q * self.Q_noise
+        
+        self.P = F @ self.P @ F.T + Q #hat shape (4,4)
         
         #getting values
         measured_values = measurement[:10].reshape(-1, 2)
@@ -71,7 +78,7 @@ class ConstantVelocity2:
         
         for i in range(n_measured_values):
             avg_R *= np.diag(R[i]) **2
-        avg_R /= len(measured_values)
+        avg_R = avg_R/ len(measured_values)
 
         #-------calculating----------
         
