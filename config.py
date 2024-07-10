@@ -37,7 +37,7 @@ filters = {
     "AngularKalmanFilter": {
         "color": [0.1, 0.2, 0.3],
         "constantposition": constanposition.AngularKalmanFilter(2),
-        "randomnoise": randomnoise.RandomNoiseFilter(2),
+        "randomnoise": dummy.DummyFilter(2),
     }
 }
 # Aufruf mit python main.py --mode=constantposition --index=5
