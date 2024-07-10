@@ -1,5 +1,5 @@
 import dummy
-from filter_nick_redion import RandomNoise, ConstantVelocity, KalmanFilterConstantTurn, KalmanFilter, ExtendedKalmanFilter, KalmanFilterConstantVelocity
+from filter_nick_redion import RandomNoise, ConstantVelocity, KalmanFilter, ExtendedKalmanFilter, KalmanFilterConstantVelocity, ConstantTurn
 
 # TODO: Add your filters here
 filters = {
@@ -8,7 +8,7 @@ filters = {
         "constantposition": KalmanFilter(2),
         "constantvelocity": KalmanFilterConstantVelocity(2),
         "constantvelocity2": ConstantVelocity(2),
-        "constantturn": KalmanFilterConstantTurn(2),
+        "constantturn": ConstantTurn(2),
         "randomnoise": RandomNoise(2),
         "angular": ExtendedKalmanFilter(2),
     }
