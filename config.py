@@ -1,5 +1,6 @@
 import dummy
 import constanposition
+import constantvelocity
 import randomnoise
 import constantturn
 import angular_kalman
@@ -11,8 +12,8 @@ filters = {
     "Dummy": {
         "color": [0.2, 0.2, 0.4],
         "constantposition": dummy.DummyFilter(2),
-        "constantvelocity": dummy.DummyFilter(2),
-        "constantvelocity2": dummy.DummyFilter(2),
+        "constantvelocity": constantvelocity.KalmanFilter(2),
+        "constantvelocity2": constantvelocity.KalmanFilter(2),
         "constantturn": dummy.DummyFilter(2),
         "randomnoise": dummy.DummyFilter(2),
         "angular": dummy.DummyFilter(2),
