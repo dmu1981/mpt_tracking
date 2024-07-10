@@ -129,3 +129,62 @@ class KalmanFilterAngular:
         while angle < -np.pi:
             angle += 2 * np.pi
         return angle
+    
+import numpy as np
+
+class KalmanFilterConstantTurn:
+    def __init__(self):
+        self.dt = 0.1  # time step
+        self.state = None
+        self.covariance = None
+        self.R = np.eye(2) * 0.04  # measurement noise covariance
+        self.Q = np.eye(4) * 0.01  # process noise covariance
+
+    def reset(self, measurement):
+        # state vector [x, y, vx, vy] from first measurement
+        self.state = np.array([measurement[0], measurement[1], 0, 0])
+        self.covariance = np.eye(4) * 0.1  # initial state covariance
+        return self.state[:2]
+
+    def update(self, dt, measurement):
+        self.dt = dt
+        self._predict()
+        self._update(measurement)
+        return self.state[:2]
+
+    def _predict(self):
+        x, y, vx, vy = self.state
+        a = 0.1  # assumed turn rate
+
+        # state transition matrix for model
+        F = np.array([
+            [1, 0, self.dt, 0],
+            [0, 1, 0, self.dt],
+            [0, 0, np.cos(a * self.dt), -np.sin(a * self.dt)],
+            [0, 0, np.sin(a * self.dt), np.cos(a * self.dt)]
+        ])
+
+        self.state = F @ self.state # predicted state estimate
+
+        self.covariance = F @ self.covariance @ F.T + self.Q # predicted covariance estimate
+
+    def _update(self, measurement):
+        z = measurement[:10].reshape(5, 2)
+        sigma = measurement[10:].reshape(5, 2)
+        
+        # measurement matrix
+        H = np.array([[1, 0, 0, 0],
+                      [0, 1, 0, 0]])
+
+        for i in range(5):
+            innovation = z[i] - H @ self.state
+
+            R = np.diag(sigma[i]**2) # measurement noise covariance for this measurement
+            S = H @ self.covariance @ H.T + R # innovation covariance
+            K = self.covariance @ H.T @ np.linalg.inv(S) # kalman gain
+
+            self.state = self.state + K @ innovation
+
+            # updated covariance estimate
+            I = np.eye(self.covariance.shape[0])
+            self.covariance = (I - K @ H) @ self.covariance
