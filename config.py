@@ -1,6 +1,7 @@
 import dummy
 import constanposition
 import randomnoise
+import angular_kalman
 
 # TODO: Add your filters here
 
@@ -36,7 +37,7 @@ filters = {
     },
     "AngularKalmanFilter": {
         "color": [0.1, 0.2, 0.3],
-        "constantposition": constanposition.AngularKalmanFilter(2),
+        "constantposition": angular_kalman.AngularKalmanFilter(2),
         "randomnoise": dummy.DummyFilter(2),
     }
 }
