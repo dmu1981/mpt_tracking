@@ -1,4 +1,11 @@
 import dummy
+import nofilter
+import tip_constantposition
+import tip_randomnoise
+import tip_angular
+import tip_constantvelocity
+import tip_constantvelocity2
+import tip_constantturn
 
 # TODO: Add your filters here
 filters = {
@@ -10,5 +17,23 @@ filters = {
         "constantturn": dummy.DummyFilter(2),
         "randomnoise": dummy.DummyFilter(2),
         "angular": dummy.DummyFilter(2),
-    }
+    },
+    "TIP": {
+        "color": [0.169, 0.89, 0.725],
+        "constantposition": tip_constantposition.Minimal_Variance_Fusion(2),
+        "constantvelocity": tip_constantvelocity.KalmanFilter(),
+        #"constantvelocity2": tip_constantvelocity2.FILTER,
+        #"constantturn": tip_constantturn.FILTER,
+        #"randomnoise": tip_randomnoise.FILTER,
+        #"angular": tip_angular.FILTER,
+    },
+    # "NO": {
+    #     "color": [1, 0.0, 0.0],
+    #     "constantposition": nofilter.NoFilter(),
+    #     "constantvelocity": nofilter.NoFilter(),
+    #     "constantvelocity2": nofilter.NoFilter(),
+    #     "constantturn": nofilter.NoFilter(),
+    #     "randomnoise": nofilter.NoFilter(),
+    #     "angular": nofilter.NoFilter(),
+    # }
 }
