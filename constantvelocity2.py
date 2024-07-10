@@ -1,6 +1,10 @@
 import numpy as np
 
 class ConstantVelocityKalmanFilter:
+    # Kalman-Filter, der die Position und Geschwindigkeit eines Objekts schätzt.
+    # Dieser Kalman-Filter wird mehrere Messungen verwenden, um die Position zu aktualisieren,
+    # wobei jede Messung einen eigenen Rauschterm hat.
+
     def __init__(self):
         self.state_size = 4  # [x, y, vx, vy]
         self.measurement_size = 2  # [x, y]
