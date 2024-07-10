@@ -1,6 +1,6 @@
 import numpy as np
 
-class ConstantVelocityKalmanFilter:
+class ConstantVelocityKalmanFilter2:
     # Ein Objekt befindet sich an einem unbekannten Ort und bewegt sich mit einer unbekannten (aber konstanten) Geschwindigkeit fort.
     # Es gibt 5 unabhängige Messungen mit jeweils unkorreliertem Messrauschen
     # Die Standardabweichung für jede Messung ist in jeder Phase zufällig
