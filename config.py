@@ -1,6 +1,8 @@
 import dummy
 import nofilter
 from kalman import KalmanFilter, KalmanFilterRandomNoise, KalmanFilterAngular
+#from CV2 import ConstantVelocity2
+from Kalman_CV2 import ConstantVelocity2
 
 # TODO: Add your filters here
 filters = {
@@ -26,6 +28,7 @@ filters = {
     "color": [1.0, 0.2, 0.2],
     "constantposition": KalmanFilter((2,)),
     "randomnoise": KalmanFilterRandomNoise(2,),
-    "angular": KalmanFilterAngular()
-  }
+    "angular": KalmanFilterAngular(),
+    "constantvelocity2" : ConstantVelocity2()
+    }
 }
