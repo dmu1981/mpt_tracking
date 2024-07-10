@@ -56,7 +56,7 @@ filters = {
         "constantposition": dummy.DummyFilter(2),
         "randomnoise": dummy.DummyFilter(2),
         "angular": dummy.DummyFilter(2),
-        "constantvelocity2": constantvelocity2.ConstantVelocityKalmanFilter2(2),
+        "constantvelocity2": constantvelocity2.ConstantVelocityKalmanFilter2(4, 2),
     },
 }
 

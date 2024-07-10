@@ -7,8 +7,9 @@ class ConstantVelocityKalmanFilter2:
     # Die letzte 10 Dimensionen geben die jeweilige Standardabweichung des Meßrauschens an
     # ZIEL: Schätzung der 2-dimensionalen Position des Objekts
 
-    def __init__(self):
-        self.state_size = 4  # Zustand ist ein 4-dimensionaler Vektor (x, y, vx, vy)
+    def __init__(self, state_size, measurement_size):
+        self.state_size = state_size  # Zustand ist ein 4-dimensionaler Vektor (x, y, vx, vy)
+        self.measurement_size = measurement_size  # Messungen sind 2-dimensional (x, y)
 
         # Initialisierung des Zustands und der Kovarianzmatrix
         self.x = np.zeros(self.state_size)
