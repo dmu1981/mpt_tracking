@@ -39,20 +39,21 @@ class ConstantVelocityKalmanFilter2:
             [0, 0, 0, 1]
         ])
 
-        # Vorhersage (Predict)
+        # Vorhersage
         self.x = F @ self.x
         self.P = F @ self.P @ F.T + self.Q
 
-        # Kalman-Gewinnberechnung und Zustandsupdate für jede Messung
+        # Kalman-Gewinnberechnung und Zustandsupdate für alle 5 Messungen (for schleife)
         H = np.array([
             [1, 0, 0, 0],
             [0, 1, 0, 0]
         ])
-        for i in range(5):
+
+        for i in range(5): 
             z_i = z[i]
             R_i = np.diag(R_values[i*2:i*2+2])
 
-            # Innovation/Korrektur
+            # Korrektur
             y = z_i - H @ self.x
             S = H @ self.P @ H.T + R_i
             K = self.P @ H.T @ np.linalg.inv(S)
