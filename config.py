@@ -1,11 +1,13 @@
 import dummy
 import constanposition
 import randomnoise
+import angular_kalman
+import constantvelocity2
 
 # TODO: Add your filters here
 
 filters = {
-    "Dummy":{
+    "Dummy": {
         "color": [0.2, 0.2, 0.4],
         "constantposition": dummy.DummyFilter(2),
         "constantvelocity": dummy.DummyFilter(2),
@@ -14,26 +16,58 @@ filters = {
         "randomnoise": dummy.DummyFilter(2),
         "angular": dummy.DummyFilter(2),
     },
+    "Glotzkowski": {
+        "color": [1, 0.7, 0.9],
+        "constantposition": constanposition.KalmanFilter(2),
+        "constantvelocity": dummy.DummyFilter(2),
+        "constantvelocity2": constantvelocity2.ConstantVelocityKalmanFilter2(4, 2),
+        "constantturn": dummy.DummyFilter(2),
+        "randomnoise": randomnoise.RandomNoiseFilter(2),
+        "angular": angular_kalman.AngularKalmanFilter(2)
+    },
     "NoFilter": {
         "color": [0.3, 0.3, 0.4],
         "constantposition": constanposition.NoFilter(),
         "randomnoise": dummy.DummyFilter(2),
+        "angular": dummy.DummyFilter(2),
+        "constantvelocity2": dummy.DummyFilter(2),
     },
     "KalmanFilter": {
         "color": [0.3, 0.3, 0.4],
         "constantposition": constanposition.KalmanFilter(2),
         "randomnoise": dummy.DummyFilter(2),
+        "angular": dummy.DummyFilter(2),
+        "constantvelocity2": dummy.DummyFilter(2),
     },
     "SimpleNoiseFilter":{
         "color": [0.1, 0.2, 0.3],
         "constantposition": constanposition.SimpleNoiseFilter(2),
         "randomnoise": dummy.DummyFilter(2),
+        "angular": dummy.DummyFilter(2),
+        "constantvelocity2": dummy.DummyFilter(2),
     },
     "RandomNoiseFilter": {
         "color": [0.1, 0.2, 0.3],
         "constantposition": dummy.DummyFilter(2),
         "randomnoise": randomnoise.RandomNoiseFilter(2),
-    }
+        "angular": dummy.DummyFilter(2),
+        "constantvelocity2": dummy.DummyFilter(2),
+    },
+    "AngularKalmanFilter": {
+        "color": [0.6, 0.6, 1],
+        "constantposition": dummy.DummyFilter(2),
+        "randomnoise": dummy.DummyFilter(2),
+        "angular": angular_kalman.AngularKalmanFilter(2),
+        "constantvelocity2": dummy.DummyFilter(2),
+    },
+    "ConstantVelocityKalmanFilter2": {
+        "color": [0.6, 0.2, 0.2],
+        "constantposition": dummy.DummyFilter(2),
+        "randomnoise": dummy.DummyFilter(2),
+        "angular": dummy.DummyFilter(2),
+        "constantvelocity2": constantvelocity2.ConstantVelocityKalmanFilter2(4, 2),
+    },
 }
+
 # Aufruf mit python main.py --mode=constantposition --index=5
 # Visualisierung python main.py --mode=constantposition --debug
