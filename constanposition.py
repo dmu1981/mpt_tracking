@@ -7,7 +7,7 @@ z(t) = x(t) + et; et ~ N(0, 0.04)
 """
 
 class KalmanFilter():
-    def __init__(self, measurement_size):
+    def __init__(self, measurement_size=2):
         # Initialisierung der Zustandsvariablen
         self.measurement_size = measurement_size
         self.x = np.zeros(measurement_size)  # Zustand (Position)
@@ -20,7 +20,7 @@ class KalmanFilter():
         self.x = np.array(measurement[:self.measurement_size])
         return self.x
     
-    def update(self, dt, measurement):
+    def update(self, measurement):
         # Vorhersage (Predict)
         self.x = self.x  # Da das Objekt statisch ist, ändert sich der Zustand nicht
         self.P = self.P + self.Q  # Aktualisierung der Fehlerkovarianzmatrix
