@@ -154,26 +154,11 @@ class ConstantVelocity():
         #getting values
         measured_values = np.array([measurement[:2]])##.reshape(-1, 2)
         R = np.eye(2) * 0.5**2#setting constant velocity#.reshape(-1, 2) #measurement_noise_covariance/measurement_noise
-        #R = np.diag(np.concatenate([R_values[:, 0]**2, R_values[:, 1]**2]))
-        print(measured_values)
-        """ 
-        #avg because we have multiple measurements
-        avg_value = np.mean(measured_values, axis = 0)
-        avg_R = np.ones((2,2))
-        
-        n_measured_values = len(measured_values)
-        
-        for i in range(n_measured_values):
-            avg_R *= np.diag(R[i]) **2
-        avg_R = avg_R/ len(measured_values)"""
-
-        #-------calculating----------
+        #print(measured_values)
         
         #Innovation
-        #H = np.eye(2,4)
-        
-        
         residual_covariance = self.H @ self.P @ self.H.T + R # means S
+        
         #KalmanGain
         kalman_gain = np.dot(np.dot(self.P, self.H.T), np.linalg.inv(residual_covariance))
         #print(f"KG: {kalman_gain}")
