@@ -1,12 +1,13 @@
 import dummy
 import nofilter
-from kalman import (
+from filters import (
     KalmanFilter,
     KalmanFilterRandomNoise,
     KalmanFilterAngular,
     KalmanFilterConstantTurn,
+    ConstantVelocity2,
+    ConstantVelocity,
 )
-from Kalman_CV2 import ConstantVelocity2, ConstantVelocity
 
 # TODO: Add your filters here
 filters = {
