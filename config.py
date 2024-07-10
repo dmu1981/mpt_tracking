@@ -1,6 +1,7 @@
 import dummy
 import NWFE
 import numpy as np
+import nikolucas_filters
 
 # TODO: Add your filters here
 filters = {
@@ -21,5 +22,14 @@ filters = {
         "constantvelocity": NWFE.ConstantVelocityKalmanFilter(),
         "constantvelocity2": NWFE.ConstantVelocityMultiMeasurementKalmanFilter(),
         "constantturn": NWFE.ConstantTurnRateKalmanFilter(),
+    },
+    "Nicolucas": {
+        "color": [0.6, 0.6, 0.2],
+        "constantposition": nikolucas_filters.KalmanFilter(),
+        "constantvelocity": nikolucas_filters.ConstantVelocityKalmanFilter(),
+        "constantvelocity2": nikolucas_filters.ConstantVelocity2(),
+        "constantturn": nikolucas_filters.ConstantTurnRateFilter(4),
+        "randomnoise": nikolucas_filters.RandomNoise(2, 2),
+        "angular": nikolucas_filters.ExtendedKalmanFilter(),
     },
 }
