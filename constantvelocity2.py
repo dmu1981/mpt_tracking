@@ -1,9 +1,11 @@
 import numpy as np
 
 class ConstantVelocityKalmanFilter:
-    # Kalman-Filter, der die Position und Geschwindigkeit eines Objekts schätzt.
-    # Dieser Kalman-Filter wird mehrere Messungen verwenden, um die Position zu aktualisieren,
-    # wobei jede Messung einen eigenen Rauschterm hat.
+    # Ein Objekt befindet sich an einem unbekannten Ort und bewegt sich mit einer unbekannten (aber konstanten) Geschwindigkeit fort.
+    # Es gibt 5 unabhängige Messungen mit jeweils unkorreliertem Messrauschen
+    # Die Standardabweichung für jede Messung ist in jeder Phase zufällig
+    # Die letzte 10 Dimensionen geben die jeweilige Standardabweichung des Meßrauschens an
+    # Wir schätzen die 2-dimensionale Position des Objekts. 
 
     def __init__(self):
         self.state_size = 4  # [x, y, vx, vy]
@@ -25,7 +27,7 @@ class ConstantVelocityKalmanFilter:
         return self.x[:2]
     
     def update(self, dt, measurement):
-        # Extrahiere Messungen und Messrauschen
+        # Rekonstruierung von Positionsmessungen und Messunsicherheiten anhand des Messvektors
         z = measurement[:10].reshape(5, 2)
         R = np.diag(measurement[10:])
         
@@ -37,7 +39,7 @@ class ConstantVelocityKalmanFilter:
             [0, 0, 0, 1]
         ])
         
-        # Vorhersage (Predict)
+        # Vorhersage
         self.x = np.dot(F, self.x)
         self.P = np.dot(F, np.dot(self.P, F.T)) + self.Q
         
@@ -52,12 +54,12 @@ class ConstantVelocityKalmanFilter:
                 [0, 1, 0, 0]
             ])
             
-            # Innovation/Korrektur
+            # Korrektur
             y = z_i - np.dot(H, self.x)
             S = np.dot(H, np.dot(self.P, H.T)) + R_i
             K = np.dot(self.P, np.dot(H.T, np.linalg.inv(S)))
             
-            # Aktualisierung
+            # Update
             self.x = self.x + np.dot(K, y)
             self.P = self.P - np.dot(K, np.dot(H, self.P))
         
