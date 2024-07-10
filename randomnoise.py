@@ -13,7 +13,6 @@ class KalmanFilter():
         self.x = np.zeros(measurement_size)  # Zustand (Position)
         self.P = np.eye(measurement_size)  # Fehlerkovarianzmatrix
         self.R = np.eye(measurement_size) # Messrauschkovarianz
-        self.Q = np.eye(measurement_size) * 0 # Prozessrauschkovarianz
 
     def reset(self, measurement):
         # Initialisierung des Zustands mit der ersten Messung
@@ -23,7 +22,6 @@ class KalmanFilter():
     def update(self, dt, measurement):
         # Vorhersage (Predict)
         self.x = self.x  # Da das Objekt statisch ist, ändert sich der Zustand nicht
-        self.P = self.P + self.Q  # Aktualisierung der Fehlerkovarianzmatrix
         
         # Messung (Measurement)
         z = np.array(measurement[:self.measurement_size])
