@@ -39,8 +39,6 @@ class KalmanFilter():
         return self.x
 
 
-
-
 class SimpleNoiseFilter():
     def __init__(self, measurement_size):
         self.measurement_size = measurement_size
