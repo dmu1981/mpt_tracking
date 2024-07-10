@@ -193,52 +193,51 @@ class ConstantVelocity:
         return self.x[:self.shape]  # Rückgabe der Positionsschätzung
     
 # Problem 6
-class KalmanFilterConstantTurn:
-    def __init__(self, shape, turn_rate=0.000001):
+class ConstantTurn:
+    def __init__(self, shape):
         self.shape = shape
         self.state_dim = shape * 2  # Zustandsvektor (Position + Geschwindigkeit)
-        self.turn_rate = turn_rate  # Konstante Drehgeschwindigkeit
         self.x = np.zeros(self.state_dim)  # Zustandsschätzung (Position und Geschwindigkeit)
         self.P = np.eye(self.state_dim)  # Fehlerkovarianzmatrix
+        self.Q = np.eye(self.state_dim) * 0.01  # Prozessrauschen
+        self.F = np.eye(self.state_dim)  # Zustandsübergangsmatrix
+        self.H = np.zeros((10, self.state_dim))  # Messmatrix
+        for i in range(5):
+            self.H[2 * i:2 * i + 2, :self.shape] = np.eye(self.shape)
 
     def reset(self, measurement):
         self.x[:self.shape] = np.mean(measurement[:10].reshape(5, 2), axis=0)  # Initialisierung der Position mit dem Mittelwert der ersten Messungen
         self.P = np.eye(self.state_dim)  # Initialisierung der Fehlerkovarianzmatrix
-        return self.x[:self.shape]  # Rückgabe nur der Positionsschätzung
+        return self.x[:self.shape]  # Rückgabe der Positionsschätzung
 
     def update(self, dt, measurement):
-        # Positionen und Messrauschen extrahieren
-        z = measurement[:10].reshape(5, 2)
-        R = np.diag(measurement[10:])
+        # Drehgeschwindigkeit
+        turn_rate = 0.1  # Annahme: konstante Drehgeschwindigkeit
+
+        # Zustandsübergangsmatrix F berechnen
+        cos_a_dt = np.cos(turn_rate * dt)
+        sin_a_dt = np.sin(turn_rate * dt)
+        self.F = np.array([
+            [1, 0, dt, 0],
+            [0, 1, 0, dt],
+            [0, 0, cos_a_dt, -sin_a_dt],
+            [0, 0, sin_a_dt, cos_a_dt]
+        ])
 
         # Predict Schritt
-        F = np.eye(self.state_dim)
-        F[:self.shape, self.shape:] = np.eye(self.shape) * dt  # Übergangsmatrix für konstante Geschwindigkeit
+        self.x = self.F @ self.x
+        self.P = self.F @ self.P @ self.F.T + self.Q
 
-        # Rotation für die konstante Drehgeschwindigkeit
-        cos_a_dt = np.cos(self.turn_rate * dt)
-        sin_a_dt = np.sin(self.turn_rate * dt)
-        rotation_matrix = np.array([
-            [cos_a_dt, -sin_a_dt],
-            [sin_a_dt, cos_a_dt]
-        ])
-        F[self.shape:, self.shape:] = rotation_matrix
-
-        self.x = F @ self.x
-        self.P = F @ self.P @ F.T
+        # Messrausch-Kovarianzmatrix R berechnen
+        R = np.diag(measurement[10:]) ** 2
 
         # Update Schritt
-        H = np.zeros((10, self.state_dim))
-        for i in range(5):
-            H[2*i:2*i+2, :self.shape] = np.eye(self.shape)
-
-        z_hat = H @ self.x
-        y = z.flatten() - z_hat  # Innovationsvektor
-        S = H @ self.P @ H.T + R  # Innovationskovarianz
-        K = self.P @ H.T @ np.linalg.inv(S)  # Kalman Gain
+        z = measurement[:10]  # Positionen aus Messvektor extrahieren
+        y = z - self.H @ self.x  # Innovationsvektor
+        S = self.H @ self.P @ self.H.T + R  # Innovationskovarianz
+        K = self.P @ self.H.T @ np.linalg.inv(S)  # Kalman Gain
 
         self.x = self.x + K @ y  # Aktualisierung der Zustandschätzung
-        self.P = (np.eye(self.state_dim) - K @ H) @ self.P  # Aktualisierung der Fehlerkovarianzmatrix
+        self.P = (np.eye(self.state_dim) - K @ self.H) @ self.P  # Aktualisierung der Fehlerkovarianzmatrix
 
-        return self.x[:self.shape]  # Rückgabe der Positionsschätzung
-    
+        return self.x[:2]  # Rückgabe der Positionsschätzung
