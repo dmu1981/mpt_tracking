@@ -7,7 +7,7 @@ import constantvelocity2
 # TODO: Add your filters here
 
 filters = {
-    "Dummy":{
+    "Dummy": {
         "color": [0.2, 0.2, 0.4],
         "constantposition": dummy.DummyFilter(2),
         "constantvelocity": dummy.DummyFilter(2),
@@ -15,6 +15,15 @@ filters = {
         "constantturn": dummy.DummyFilter(2),
         "randomnoise": dummy.DummyFilter(2),
         "angular": dummy.DummyFilter(2),
+    },
+    "Glotzkowski": {
+        "color": [1, 0.7, 0.9],
+        "constantposition": constanposition.KalmanFilter(2),
+        "constantvelocity": dummy.DummyFilter(2),
+        "constantvelocity2": constantvelocity2.ConstantVelocityKalmanFilter2(4, 2),
+        "constantturn": dummy.DummyFilter(2),
+        "randomnoise": randomnoise.RandomNoiseFilter(2),
+        "angular": angular_kalman.AngularKalmanFilter(2)
     },
     "NoFilter": {
         "color": [0.3, 0.3, 0.4],
