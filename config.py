@@ -38,7 +38,7 @@ filters = {
     },
     "AngularKalmanFilter": {
         "color": [0.1, 0.2, 0.3],
-        "constantposition": angular_kalman.AngularKalmanFilter(2),
+        "constantsposition": angular_kalman.AngularKalmanFilter(2),
         "randomnoise": dummy.DummyFilter(2),
     },
     "ConstantVelocityKalmanFilter2": {
