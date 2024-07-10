@@ -17,8 +17,8 @@ filters = {
         "constantposition": nikolucas_filters.KalmanFilter(),
         "constantvelocity": nikolucas_filters.ConstantVelocityKalmanFilter(),
         "constantvelocity2": nikolucas_filters.ConstantVelocity2(),
-        "constantturn": nikolucas_filters.ConstantTurn(),
+        "constantturn": nikolucas_filters.ConstantTurnRateFilter(4),
         "randomnoise": nikolucas_filters.RandomNoise(2, 2),
-        "angular": nikolucas_filters.ExtendedKalmanFilter()
-    }
+        "angular": nikolucas_filters.ExtendedKalmanFilter(),
+    },
 }
