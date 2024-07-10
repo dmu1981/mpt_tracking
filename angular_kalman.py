@@ -26,7 +26,7 @@ class AngularKalmanFilter():
         z = np.array([r * np.cos(phi), r * np.sin(phi)])
         
         # Vorhersage (Predict)
-        self.P = self.P #+ self.Q  # Aktualisierung der Fehlerkovarianzmatrix
+        #self.P = self.P  # Aktualisierung der Fehlerkovarianzmatrix
         
         # Berechnung des Kalman-Gewinns
         S = self.P + self.R  
