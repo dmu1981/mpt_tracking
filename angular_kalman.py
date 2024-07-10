@@ -9,7 +9,9 @@ class AngularKalmanFilter():
         self.measurement_size = measurement_size
         self.x = np.zeros(measurement_size)  
         self.P = np.eye(measurement_size)  
-        self.R = np.eye(measurement_size) * 0.04  
+        self.R = np.array([
+            [0.0100, 0.0000],
+            [0.0000, 0.0025]])
         
     def reset(self, measurement):
         # Initialisierung des Zustands x mit der ersten Messung
@@ -20,7 +22,7 @@ class AngularKalmanFilter():
     def update(self, dt, measurement):
         r, phi = measurement
 
-        # Konvertierung von Polarkoordinaten in kortesische Koordinaten 
+        # Konvertierung von Polarkoordinaten in kartesische Koordinaten 
         z = np.array([r * np.cos(phi), r * np.sin(phi)])
         
         # Berechnung des Kalman-Gewinns
