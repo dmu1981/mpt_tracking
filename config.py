@@ -24,7 +24,7 @@ filters = {
         "constantvelocity": tip_constantvelocity.KalmanFilter(),
         # "constantvelocity2": tip_constantvelocity2.FILTER,
         "constantturn": tip_constantturn.constantturn_EKF(2),
-        # "randomnoise": tip_randomnoise.FILTER,
+        "randomnoise": tip_randomnoise.KalmanFilter(2),
         "angular": tip_angular.angular_EKF(2),
     },
     # "NO": {
