@@ -2,11 +2,11 @@ import numpy as np
 
 
 class KalmanFilter:
-    def __init__(self):
+    def __init__(self, shape):
         # We need 4 variables, position x, y and velocity x, y: [x, y, vx, vy]
         # Measurement only has the coordinates [x, y]
         self.dim_x = 4
-        self.dim_z = 2
+        self.dim_z = shape
 
         # Initial state vector [x, y, vx, vy]
         self.x = np.zeros((self.dim_x, 1))
