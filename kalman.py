@@ -129,8 +129,6 @@ class KalmanFilterAngular:
         while angle < -np.pi:
             angle += 2 * np.pi
         return angle
-    
-import numpy as np
 
 class KalmanFilterConstantTurn:
     def __init__(self):
