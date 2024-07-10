@@ -1,12 +1,7 @@
 import dummy
 import nofilter
-<<<<<<< HEAD
-from kalman import KalmanFilter, KalmanFilterRandomNoise, KalmanFilterAngular
-from Kalman_CV2 import ConstantVelocity2
-#from CV2 import ConstantVelocity2
-=======
 from kalman import KalmanFilter, KalmanFilterRandomNoise, KalmanFilterAngular, KalmanFilterConstantTurn
->>>>>>> b6f3635 (added constant turn filter)
+from Kalman_CV2 import ConstantVelocity2, ConstantVelocity
 
 # TODO: Add your filters here
 filters = {
@@ -33,6 +28,8 @@ filters = {
     "constantposition": KalmanFilter((2,)),
     "randomnoise": KalmanFilterRandomNoise(2,),
     "angular": KalmanFilterAngular(),
-    "constantvelocity2" : ConstantVelocity2()
+    "constantvelocity2" : ConstantVelocity2(),
+    "constantvelocity": ConstantVelocity(),
+    "constantturn": KalmanFilterConstantTurn()
     }
 }
