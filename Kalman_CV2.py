@@ -14,7 +14,7 @@ class ConstantVelocity2:
     which quantifies the level of confidence in the measurements
     and therefore is needed to update the state estimate and its uncertainty/noise.
     """
-    def __init__(self, guess_H = 1, guess_P = 67, Q_noise = 0.0005):
+    def __init__(self, guess_H = 1, guess_P = 1, Q_noise = 0.0005):
         #self.state_dim = state_dim
         self.dt = 1
         self.state_estimate = np.zeros(4)
