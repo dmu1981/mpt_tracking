@@ -6,7 +6,7 @@ Objekt bewegt sich statisch: x(t) = x(t-1)
 Jede Messung hat individuelle Meßrauschen
 """
 
-class KalmanFilter():
+class Randomnoise_KalmanFilter():
     def __init__(self, measurement_size):
         # Initialisierung der Zustandsvariablen
         self.measurement_size = measurement_size
@@ -17,6 +17,7 @@ class KalmanFilter():
     def reset(self, measurement):
         # Initialisierung des Zustands mit der ersten Messung
         self.x = np.array(measurement[:self.measurement_size])
+        self.P = np.eye(self.measurement_size) * 0.1  # Ich habe experimentiert und den niedrigsten RMSE erreicht, indem ich die Einheitsmatrix mit dem Faktor 0,1 multipliziert habe.
         return self.x
     
     def update(self, dt, measurement):

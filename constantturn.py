@@ -1,20 +1,26 @@
 import numpy as np
 
-class ExtendedKalmanFilter:
-    def __init__(self, state_size, measurement_size, turn_rate = 0.01):
-        self.state_size = state_size
-        self.measurement_size = measurement_size
-        self.x = np.zeros(state_size)  # Zustand [x, y, Standardabweichung_x, Standardabweichung _y]
-        self.P = np.eye(state_size)   # Große Anfangskovarianzmatrix
-        self.Q = np.eye(state_size) * 0.01  # Prozessrauschkovarianz
-        self.H = np.zeros((self.measurement_size//2, self.state_size)) # Beobachtungsmodell
-        self.turn_rate = turn_rate  # Drehgeschwindigkeit
-    
-    def reset(self, measurement):
-        # Initialisierung des Zustands mit der ersten Messung
-        self.x[:2] = measurement[:2]  # Initialisieren der Position
-        return self.x[:2]
+class Constantturn_KalmanFilter:
+    def __init__(self, state_size, measurement_size, turn_rate = 0.001):
+        self.state_size = state_size  # Zustand: 4-dimensionaler Vektor aus Position und Geschwindigkeit (x, y, vx, vy)
+        self.measurement_size = measurement_size  # Messungen: 2-dimensionaler Vektor (x, y)
 
+        # Initialisierung des Zustands und der Kovarianzmatrix
+        self.x = np.zeros(self.state_size)
+        self.P = np.eye(self.state_size)
+
+        # Prozessrauschkovarianz Q
+        self.Q = np.eye(self.state_size) * 0.01 # Das Prozessrauschen wird beispielhaft modelliert, um den RMSE niedriger zu machen
+        
+        #Drehgeschwendigkeitsrate
+        self.turn_rate = turn_rate
+
+    def reset(self, measurement):
+        z = measurement[:10].reshape(5, 2) 
+        self.x[:2] = np.mean(z, axis=0)  # Durchschnitt der fünf Positionsmessungen
+        self.x[2:] = 0  # Anfangsgeschwindigkeit auf 0 setzen
+        return self.x[:2]
+    
     def update(self, dt, measurement):
         # Extrahiere Messungen und Messrauschen
         z = measurement[:10].reshape(5, 2)
