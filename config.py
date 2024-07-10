@@ -31,9 +31,7 @@ filters = {
     "Kalman": {
         "color": [1.0, 0.2, 0.2],
         "constantposition": KalmanFilter((2,)),
-        "randomnoise": KalmanFilterRandomNoise(
-            2,
-        ),
+        "randomnoise": KalmanFilterRandomNoise(2),
         "angular": KalmanFilterAngular(),
         "constantvelocity2": ConstantVelocity2(),
         "constantvelocity": ConstantVelocity(),
