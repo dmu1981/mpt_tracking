@@ -277,15 +277,6 @@ class ConstantVelocity2:
         self.Q = np.eye(4) * self.Q_noise
         self.I = np.eye(4) # einheitsmatrix
 
-        """in den folien:
-             state = F@state + Ga
-             mit:
-                 Ga = np.array([[0.5*dt**2, 0],
-                                [0, 0.5*dt**2], 
-                                [dt, 0],
-                                [0, dt]])
-                 Q = np.ndarray.var(Ga)"""
-
     def reset(self, measurement):
         self.state_estimate = np.array(
             [
@@ -309,7 +300,6 @@ class ConstantVelocity2:
                 0.0,
             ]
         )  # positions
-        #self.state_estimate[2:] = 0  # velocity: unknown
         self.P = np.eye(4)  # uncertainty covariance
         return self.state_estimate[:2]
 
@@ -330,13 +320,12 @@ class ConstantVelocity2:
         self.P = F @ self.P @ F.T + Q  # has shape (4,4)
 
         # getting values
-        #measured_values = measurement[:10].reshape(-1, 2)
         measurement_residual = measurement[:10] - self.H @ self.state_estimate
-        R = np.diag(measurement[10:])#.reshape(-1, 2)  # measurement_noise_covariance/measurement_noise
+        R = np.diag(measurement[10:])# measurement_noise_covariance/measurement_noise
 
         
 
-        # -------calculating----------
+        # -------calculating----------#
 
         # Innovation
         residual_covariance = self.H @ self.P @ self.H.T + R  # means S
@@ -344,9 +333,7 @@ class ConstantVelocity2:
         kalman_gain = np.dot(
             np.dot(self.P, self.H.T), np.linalg.inv(residual_covariance)
         )
-
-        #measurement_residual = self.state_estimate - self.H @ self.state_estimate  # innovation
-
+        
         # Update
         self.state_estimate = self.state_estimate + kalman_gain @ measurement_residual
         self.P = np.dot((self.I - np.dot(kalman_gain, self.H)), self.P)
