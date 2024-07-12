@@ -262,9 +262,20 @@ class ConstantVelocity2:
         self.guess_H = guess_H
         self.Q_noise = Q_noise
         self.P = np.eye(4) * guess_P
-        self.H = np.eye(2, 4) * guess_H  # measurement_matrix
+        self.H = np.array(
+            [   [1.0, 0.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0, 0.0],
+                [1.0, 0.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0, 0.0],
+                [1.0, 0.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0, 0.0],
+                [1.0, 0.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0, 0.0],
+                [1.0, 0.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0, 0.0],
+            ]) #np.eye(2, 4) * guess_H  # measurement_matrix
         self.Q = np.eye(4) * self.Q_noise
-        self.I = np.eye(4)  # einheitsmatrix
+        self.I = np.eye(4) # einheitsmatrix
 
         """in den folien:
              state = F@state + Ga
@@ -276,10 +287,29 @@ class ConstantVelocity2:
                  Q = np.ndarray.var(Ga)"""
 
     def reset(self, measurement):
-        self.state_estimate[:2] = np.mean(
-            measurement[:10].reshape(-1, 2), axis=0
+        self.state_estimate = np.array(
+            [
+                (
+                    measurement[0]
+                    + measurement[2]
+                    + measurement[4]
+                    + measurement[6]
+                    + measurement[8]
+                )
+                / 5.0,
+                (
+                    measurement[1]
+                    + measurement[3]
+                    + measurement[5]
+                    + measurement[7]
+                    + measurement[9]
+                )
+                / 5.0,
+                0.0,
+                0.0,
+            ]
         )  # positions
-        self.state_estimate[2:] = 0  # velocity: unknown
+        #self.state_estimate[2:] = 0  # velocity: unknown
         self.P = np.eye(4)  # uncertainty covariance
         return self.state_estimate[:2]
 
@@ -293,38 +323,29 @@ class ConstantVelocity2:
 
         G = np.array([[0.5 * dt**2, 0], [0, 0.5 * dt**2], [dt, 0], [0, dt]])
 
-        Q = np.ndarray.var(G) * self.Q_noise
+        Q = G @ G.T * self.Q_noise
 
         self.state_estimate = F @ self.state_estimate
 
         self.P = F @ self.P @ F.T + Q  # has shape (4,4)
 
         # getting values
-        measured_values = measurement[:10].reshape(-1, 2)
-        R = measurement[10:].reshape(
-            -1, 2
-        )  # measurement_noise_covariance/measurement_noise
+        #measured_values = measurement[:10].reshape(-1, 2)
+        measurement_residual = measurement[:10] - self.H @ self.state_estimate
+        R = np.diag(measurement[10:])#.reshape(-1, 2)  # measurement_noise_covariance/measurement_noise
 
-        # avg because we have multiple measurements
-        avg_value = np.mean(measured_values, axis=0)
-        avg_R = np.ones((2, 2))
-
-        n_measured_values = len(measured_values)
-
-        for i in range(n_measured_values):
-            avg_R *= np.diag(R[i]) ** 2
-        avg_R = avg_R / len(measured_values)
+        
 
         # -------calculating----------
 
         # Innovation
-        residual_covariance = self.H @ self.P @ self.H.T + avg_R  # means S
+        residual_covariance = self.H @ self.P @ self.H.T + R  # means S
         # KalmanGain
         kalman_gain = np.dot(
             np.dot(self.P, self.H.T), np.linalg.inv(residual_covariance)
         )
 
-        measurement_residual = avg_value - self.H @ self.state_estimate  # innovation
+        #measurement_residual = self.state_estimate - self.H @ self.state_estimate  # innovation
 
         # Update
         self.state_estimate = self.state_estimate + kalman_gain @ measurement_residual
